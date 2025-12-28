@@ -1,0 +1,42 @@
+# ===== VSCode =====
+.vscode/
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+
+# ===== Python =====
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.so
+*.egg-info/
+dist/
+build/
+
+# ===== Virtual Env =====
+venv/
+.env/
+.venv/
+
+# ===== Logs =====
+*.log
+
+# ===== OS =====
+.DS_Store
+Thumbs.db
+
+# ===== Git =====
+*.orig
+
+# ===== Cache =====
+.cache/
+.pytest_cache/
+
+# ===== Jupyter =====
+.ipynb_checkpoints/
+
+# ===== dotenv (tokens, segredos) =====
+.env
+.env.*
