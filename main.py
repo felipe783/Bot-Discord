@@ -10,16 +10,13 @@ from dotenv import load_dotenv
 load_dotenv()  # abre o .env e joga as variaveis pro ambiente
 TOKEN = os.getenv("DISCORD_TOKEN") # Aqui pega o valor da variavel que eu quero
 
-#Permissões que o Bot precisa(ele tem todas as permissões)
-#intents = discord.Intents.all()
-#bot = commands.Bot(".", intents=intents) # Esse ponto é como acessa o bot
-
 class Teste(commands.Bot):
     def __init__(self):
         intents = discord.Intents.default()
         super().__init__(command_prefix=".",intents=intents)
         self.db = None 
         self.config = {}
+        
     #Carregando a tree no bot
     async def setup_hook(self):
         try:
