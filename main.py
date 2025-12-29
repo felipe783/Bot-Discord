@@ -10,6 +10,7 @@ from dotenv import load_dotenv
 load_dotenv()  # abre o .env e joga as variaveis pro ambiente
 TOKEN = os.getenv("DISCORD_TOKEN") # Aqui pega o valor da variavel que eu quero
 
+
 class Teste(commands.Bot):
     def __init__(self):
         intents = discord.Intents.default()
@@ -24,8 +25,8 @@ class Teste(commands.Bot):
             await self.tree.sync()
             print(f"O {bot.user} logou com sucesso🔥😎")
         except Exception as e:
-            print(f"Não deu certo😭 o erro:{e}")  
-
+            print("Não deu certo😭")
+            print(f"ERRO:{e}") 
     #Carregando meu "Data-Base"(Json)
     def Carregar_DB(self):
         try:
@@ -36,5 +37,10 @@ class Teste(commands.Bot):
             print(f"O Arquivo não foi encontrado😭 com o caminho:{e.filename}")
 
 bot = Teste()
+
+@bot.event
+async def on_ready():
+    canal = bot.get_channel(1455213213670182912)
+    await canal.send("O Monstro Chegou🔥😎")
 
 bot.run(TOKEN)
