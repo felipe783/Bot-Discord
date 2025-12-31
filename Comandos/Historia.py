@@ -1,4 +1,5 @@
 from typing import Optional
+from loader import * 
 import json
 import discord
 from discord import app_commands
@@ -10,15 +11,13 @@ class Historia(commands.Cog):
 
     # comando slash /historia
     @app_commands.command(name="historia", description="Crie uma história!")
-    @app_commands.describe(texto="Escreva uma frase e eu irei juntar as outras ja escritas")
+    @app_commands.describe(texto="Escreva uma frase e eu irei juntar com as outras ja escritas")
     async def historia(self, interaction: discord.Interaction, texto: Optional[str] = None):
         texto = texto or ""
-        dados={
-            "Historia": texto
-        }
-        with open("dados.json", "w", encondig="utf-8") as arquivo:
-            json.dump(dados, arquivo,indent=4, ensure_ascii=False)
-        await interaction.response.send_message(texto)
+        
+        self.bot.db["historia"].append(texto)
+        save_db(self.bot.db)
+        await interaction.response.send_message(f"A historia ficou assim:{",".join(self.bot.db["historia"])}")
 
 async def setup(bot: commands.Bot):
     await bot.add_cog(Historia(bot))
