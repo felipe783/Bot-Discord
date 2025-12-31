@@ -7,6 +7,7 @@ from typing import Optional
 from loader import * 
 from discord import app_commands
 from discord.ext import commands
+from datetime import datetime, timedelta
 
 # carrega .env
 load_dotenv()
@@ -50,31 +51,74 @@ bot = Teste()
 
 @bot.event
 async def on_ready():
-    #Falar no terminal ce conseguiu carregar o Json e logar
+    #Falar no terminal ce conseguiu carregar o Json 
     try:
         bot.db = load_db()
-        print("JSON Carregado🔥😎")
+        if not isinstance(bot.db, dict):
+            bot.db = {"historia": [], "reset": datetime.now().strftime("%Y-%m-%d")}
+        if "historia" not in bot.db:
+            bot.db["historia"] = []
+        if "reset" not in bot.db:
+            bot.db["reset"] = datetime.now().strftime("%Y-%m-%d")
+        print("JSON Carregado 🔥😎")
     except Exception as e:
-        print(f"Erro no load do JSON {e}")    
+        print(f"Erro no load do JSON {e}")   
+        bot.db = {"historia": [], "reset": datetime.now().strftime("%Y-%m-%d")} 
     print(f"{bot.user} logado com sucesso!")
     
     #Falar que iniciou e as historias
-    canal_id = 1456028679967867156
-    canal_id2 = 1455213213670182912
-
-    canal = bot.get_channel(canal_id)
-    canal_2 = bot.get_channel(canal_id2)
-    try:
-        texto=', '.join(bot.db["historia"])
-        if bot.db["historia"]:
-            texto = ", ".join(bot.db["historia"])
-        else:
-            texto= "Sem nenhuma historia"
-
-        await canal.send(f"A ultima Historia:{texto}😭")
-        await canal_2.send("O Monstro Chegou🔥😎")
-    except Exception as e:
-        print("Não consegui enviar mensagem no canal:", e)
+    canal_id = 1456028679967867156 #Historias
+    canal_id2 = 1455213213670182912 #Inicio
     
+    canal_historia = bot.get_channel(canal_id)
+    canal_inicio = bot.get_channel(canal_id2)
+
+    try:
+        reset_str = bot.db.get("reset", "")
+        try:
+            last_reset_date = datetime.strptime(reset_str, "%Y-%m-%d").date()
+        except Exception:
+            # se o formato estiver inválido, considera que não precisa resetar agora
+            last_reset_date = datetime.now().date()
+
+        hoje = datetime.now().date()
+        dias_passados = (hoje - last_reset_date).days
+
+        if dias_passados >= 1:
+            # Há mais de um dia desde o último reset -> zera a historia
+            historia_list = bot.db.get("historia", [])
+            if historia_list:
+                # monta texto filtrando valores nulos/vazios e convertendo para str
+                texto = ", ".join(str(x) for x in historia_list if x is not None and x != "")
+
+                # envia a história antiga e confirma o reset
+                if canal_historia:
+                    await canal_historia.send(f"\nHistória antiga: {texto}\nHistórias zeradas 🔥😎\n||@everyone||")
+                # zera e atualiza data de reset
+                bot.db["historia"] = []
+                bot.db["reset"] = hoje.strftime("%Y-%m-%d")
+                save_db(bot.db)
+                print("Histórias zeradas e Data atualizada no JSON.")
+            else:
+                # não havia história para zerar
+                if canal_historia:
+                    await canal_historia.send("Sem histórias pra zerar.😭")
+                # atualiza a data de reset mesmo sem história (para não reenviar todo inicio)
+                bot.db["reset"] = hoje.strftime("%Y-%m-%d")
+                save_db(bot.db)
+                print("Nenhuma história para zerar. Data de reset atualizada no JSON.")
+        else:
+            # Menos de um dia desde o último reset — apenas envia a mensagem de inicialização como antes
+            historia_list = bot.db.get("historia", [])
+            if historia_list:
+                texto=', '.join(str(x) for x in historia_list if x is not None and x != "")
+            else:
+                texto = "Sem nenhuma historia"
+            if canal_historia:
+                await canal_historia.send(f"A Historia do dia {last_reset_date}: {texto}\n||@everyone||")
+            if canal_inicio:
+                await canal_inicio.send("O Monstro Chegou🔥😎")
+    except Exception as e:
+        print("Erro ao processar lógica de reset/ envio de mensagens:", e)
 
 bot.run(TOKEN)
