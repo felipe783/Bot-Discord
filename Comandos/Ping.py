@@ -9,8 +9,7 @@ class Ping(commands.Cog):
     # comando slash /ping
     @app_commands.command(name="ping", description="Responde com pong")
     async def ping(self, interaction: discord.Interaction):
-        await interaction.response.send_message("pong")
+        await interaction.response.send_message("PONG😎🔥")
 
-# função que o "loader" do bot chamará para adicionar o cog
 async def setup(bot: commands.Bot):
     await bot.add_cog(Ping(bot))

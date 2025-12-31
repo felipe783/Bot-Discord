@@ -2,6 +2,7 @@ import os
 import json
 from pathlib import Path
 from dotenv import load_dotenv
+from loader import load_db
 
 import discord
 from discord.ext import commands
@@ -20,14 +21,8 @@ class Teste(commands.Bot):
         self.config = {}
 
     async def setup_hook(self):
-        # Carrega DB
-        try:
-            self.Carregar_DB()
-            print("Json conectado com sucesso🔥")
-        except Exception as e:
-            print("Erro ao carregar DB:", e)
-
-        # Carrega dinamicamente todos os cogs em ./Comandos
+        
+    # Carrega dinamicamente todos os cogs em ./Comandos
         comandos_path = Path("Comandos")
         if comandos_path.exists() and comandos_path.is_dir():
             for file in comandos_path.glob("*.py"):
@@ -50,19 +45,15 @@ class Teste(commands.Bot):
         except Exception as e:
             print("Falha ao sincronizar comandos da tree:", e)
 
-    def Carregar_DB(self):
-        try:
-            with open("Data-Base/Data.json", "r", encoding="utf-8") as f:
-                self.db = json.load(f)
-        except FileNotFoundError as e:
-            print(f"O Arquivo não foi encontrado😭 com o caminho:{e.filename}")
-        except Exception as e:
-            print("Erro ao abrir/parsear o JSON:", e)
-
 bot = Teste()
 
 @bot.event
 async def on_ready():
+    try:
+        bot.db = load_db()
+        print("JSON Carregado🔥😎")
+    except Exception as e:
+        print(f"Erro no load do JSON {e}")    
     print(f"{bot.user} logado com sucesso!")
     # Exemplo: enviar mensagem a um canal específico (garanta que o bot está no servidor e o ID está correto)
     canal_id = 1455213213670182912
