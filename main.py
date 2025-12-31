@@ -1,10 +1,11 @@
 import os
 import json
+import discord
 from pathlib import Path
 from dotenv import load_dotenv
-from loader import load_db
-
-import discord
+from typing import Optional
+from loader import * 
+from discord import app_commands
 from discord.ext import commands
 
 # carrega .env
@@ -22,7 +23,7 @@ class Teste(commands.Bot):
 
     async def setup_hook(self):
         
-    # Carrega dinamicamente todos os cogs em ./Comandos
+        # Carrega dinamicamente todos os cogs em ./Comandos
         comandos_path = Path("Comandos")
         if comandos_path.exists() and comandos_path.is_dir():
             for file in comandos_path.glob("*.py"):
@@ -49,21 +50,31 @@ bot = Teste()
 
 @bot.event
 async def on_ready():
+    #Falar no terminal ce conseguiu carregar o Json e logar
     try:
         bot.db = load_db()
         print("JSON Carregado🔥😎")
     except Exception as e:
         print(f"Erro no load do JSON {e}")    
     print(f"{bot.user} logado com sucesso!")
-    # Exemplo: enviar mensagem a um canal específico (garanta que o bot está no servidor e o ID está correto)
-    canal_id = 1455213213670182912
+    
+    #Falar que iniciou e as historias
+    canal_id = 1456028679967867156
+    canal_id2 = 1455213213670182912
+
     canal = bot.get_channel(canal_id)
-    if canal:
-        try:
-            await canal.send("O Monstro Chegou🔥😎")
-        except Exception as e:
-            print("Não consegui enviar mensagem no canal:", e)
-    else:
-        print(f"Canal {canal_id} não encontrado no cache. Verifique se o bot está no servidor.")
+    canal_2 = bot.get_channel(canal_id2)
+    try:
+        texto=', '.join(bot.db["historia"])
+        if bot.db["historia"]:
+            texto = ", ".join(bot.db["historia"])
+        else:
+            texto= "Sem nenhuma historia"
+
+        await canal.send(f"A ultima Historia:{texto}😭")
+        await canal_2.send("O Monstro Chegou🔥😎")
+    except Exception as e:
+        print("Não consegui enviar mensagem no canal:", e)
+    
 
 bot.run(TOKEN)

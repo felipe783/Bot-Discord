@@ -11,10 +11,10 @@ class Historia(commands.Cog):
 
     # comando slash /historia
     @app_commands.command(name="historia", description="Crie uma história!")
-    @app_commands.describe(texto="Escreva uma frase e eu irei juntar com as outras ja escritas")
+    @app_commands.describe(texto="Escreva uma frase e eu irei juntar com as outras ja escritas😎✍️")
     async def historia(self, interaction: discord.Interaction, texto: Optional[str] = None):
         texto = texto or ""
-        
+
         self.bot.db["historia"].append(texto)
         save_db(self.bot.db)
         await interaction.response.send_message(f"A historia ficou assim:{",".join(self.bot.db["historia"])}")
