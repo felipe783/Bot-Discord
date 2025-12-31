@@ -16,19 +16,17 @@ TOKEN = os.getenv("DISCORD_TOKEN")
 class Teste(commands.Bot):
     def __init__(self):
         intents = discord.Intents.default()
-        # se precisar ler mensagens (não necessário para slash commands) habilite message_content:
-        # intents.message_content = True
         super().__init__(command_prefix=".", intents=intents)
         self.db = None
         self.config = {}
 
     async def setup_hook(self):
         
-        # Carrega dinamicamente todos os cogs em ./Comandos
+        #Carregar os Codigos
         comandos_path = Path("Comandos")
         if comandos_path.exists() and comandos_path.is_dir():
             for file in comandos_path.glob("*.py"):
-                # ignora arquivos privados / __init__.py
+                
                 if file.name.startswith("_"):
                     continue
                 module = f"Comandos.{file.stem}"
@@ -40,7 +38,7 @@ class Teste(commands.Bot):
         else:
             print("Pasta 'Comandos' não encontrada. Verifique a estrutura do projeto.")
 
-        # Sincroniza a tree de comandos (global)
+        #Tenta sincronizar a Tree
         try:
             await self.tree.sync()
             print("Comandos sincronizados (tree.sync) ✅")
@@ -51,7 +49,7 @@ bot = Teste()
 
 @bot.event
 async def on_ready():
-    #Falar no terminal ce conseguiu carregar o Json 
+    
     try:
         bot.db = load_db()
         if not isinstance(bot.db, dict):
@@ -66,7 +64,7 @@ async def on_ready():
         bot.db = {"historia": [], "reset": datetime.now().strftime("%Y-%m-%d")} 
     print(f"{bot.user} logado com sucesso!")
     
-    #Falar que iniciou e as historias
+    
     canal_id = 1456028679967867156 #Historias
     canal_id2 = 1455213213670182912 #Inicio
     
@@ -78,37 +76,34 @@ async def on_ready():
         try:
             last_reset_date = datetime.strptime(reset_str, "%Y-%m-%d").date()
         except Exception:
-            # se o formato estiver inválido, considera que não precisa resetar agora
+            
             last_reset_date = datetime.now().date()
 
         hoje = datetime.now().date()
         dias_passados = (hoje - last_reset_date).days
-
+        #Verificar ce passou 1 dia 
         if dias_passados >= 1:
-            # Há mais de um dia desde o último reset -> zera a historia
+            
             historia_list = bot.db.get("historia", [])
             if historia_list:
-                # monta texto filtrando valores nulos/vazios e convertendo para str
                 texto = ", ".join(str(x) for x in historia_list if x is not None and x != "")
 
-                # envia a história antiga e confirma o reset
                 if canal_historia:
                     await canal_historia.send(f"\nHistória antiga: {texto}\nHistórias zeradas 🔥😎\n||@everyone||")
-                # zera e atualiza data de reset
+
+                #Zerar o json
                 bot.db["historia"] = []
                 bot.db["reset"] = hoje.strftime("%Y-%m-%d")
                 save_db(bot.db)
                 print("Histórias zeradas e Data atualizada no JSON.")
             else:
-                # não havia história para zerar
                 if canal_historia:
                     await canal_historia.send("Sem histórias pra zerar.😭")
-                # atualiza a data de reset mesmo sem história (para não reenviar todo inicio)
+                #Atualiza a data do ultimo reset
                 bot.db["reset"] = hoje.strftime("%Y-%m-%d")
                 save_db(bot.db)
                 print("Nenhuma história para zerar. Data de reset atualizada no JSON.")
         else:
-            # Menos de um dia desde o último reset — apenas envia a mensagem de inicialização como antes
             historia_list = bot.db.get("historia", [])
             if historia_list:
                 texto=', '.join(str(x) for x in historia_list if x is not None and x != "")
