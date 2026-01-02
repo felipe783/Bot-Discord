@@ -103,8 +103,9 @@ async def on_ready():
                 bot.db["reset"] = hoje.strftime("%Y-%m-%d")
                 save_db(bot.db)
                 print("Nenhuma história para zerar. Data de reset atualizada no JSON.")
+        #Aqui não zerou as historias
         else:
-            historia_list = bot.db.get("historia", [])
+            historia_list = bot.db.get("historia", []) #Tenta pegar a chave 'historia' dentro de bot.db,se ela não existir ele retorna uma lista vazia,vulgo "[]" 
             if historia_list:
                 texto=', '.join(str(x) for x in historia_list if x is not None and x != "")
             else:
