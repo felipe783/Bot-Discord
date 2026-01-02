@@ -1,8 +1,11 @@
 # Bot Teste🔥
 
 ## Comandos:
+### /ajuda
+- Neste comando ira mostrar a lista de comandos do bot e uma pequena explicação sobre eles
+
 ### /ping
-- O bot vai mandar um pong no chat
+- O bot vai responder quem chamou com um pong
 
 ### /historia {texto}
 > ***texto*** argumento opcional
