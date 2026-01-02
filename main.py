@@ -81,6 +81,7 @@ async def on_ready():
 
         hoje = datetime.now().date()
         dias_passados = (hoje - last_reset_date).days
+        
         #Verificar ce passou 1 dia 
         if dias_passados >= 1:
             

@@ -5,11 +5,10 @@ import discord
 from discord import app_commands
 from discord.ext import commands
 
-class Historia(commands.Cog):
+class historia(commands.Cog):
     def __init__(self, bot: commands.Bot):
         self.bot = bot
 
-    # comando slash /historia
     @app_commands.command(name="historia", description="Crie uma história!")
     @app_commands.describe(texto="Escreva uma frase e eu irei juntar com as outras ja escritas😎✍️")
     async def historia(self, interaction: discord.Interaction, texto: Optional[str] = None):
@@ -20,4 +19,4 @@ class Historia(commands.Cog):
         await interaction.response.send_message(f"A historia ficou assim:{",".join(self.bot.db["historia"])}")
 
 async def setup(bot: commands.Bot):
-    await bot.add_cog(Historia(bot))
+    await bot.add_cog(historia(bot))
