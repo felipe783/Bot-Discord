@@ -1,13 +1,12 @@
+import discord
+from discord.ext import commands , tasks
+from datetime import datetime, timedelta
 import os
 import json
-import discord
+import pytz
 from pathlib import Path
 from dotenv import load_dotenv
-from typing import Optional
 from loader import * 
-from discord import app_commands
-from discord.ext import commands
-from datetime import datetime, timedelta
 
 # carrega .env
 load_dotenv()
@@ -26,7 +25,6 @@ class Teste(commands.Bot):
         comandos_path = Path("Comandos")
         if comandos_path.exists() and comandos_path.is_dir():
             for file in comandos_path.glob("*.py"):
-                
                 if file.name.startswith("_"):
                     continue
                 module = f"Comandos.{file.stem}"
@@ -47,75 +45,43 @@ class Teste(commands.Bot):
 
 bot = Teste()
 
-@bot.event
-async def on_ready():
-    
-    try:
-        bot.db = load_db()
-        if not isinstance(bot.db, dict):
-            bot.db = {"historia": [], "reset": datetime.now().strftime("%Y-%m-%d")}
-        if "historia" not in bot.db:
-            bot.db["historia"] = []
-        if "reset" not in bot.db:
-            bot.db["reset"] = datetime.now().strftime("%Y-%m-%d")
-        print("JSON Carregado 🔥😎")
-    except Exception as e:
-        print(f"Erro no load do JSON {e}")   
-        bot.db = {"historia": [], "reset": datetime.now().strftime("%Y-%m-%d")} 
-    print(f"{bot.user} logado com sucesso!")
-    
-    
-    canal_id = 1456028679967867156 #Historias
-    canal_id2 = 1455213213670182912 #Inicio
-    
-    canal_historia = bot.get_channel(canal_id)
-    canal_inicio = bot.get_channel(canal_id2)
+#vai checar a cada 1 minuto
+@bot.tasks(minutes=1)
+async def Historias_diaria():
+    canal_erros = bot.get_channel(1457546195655332193) #Erros
+    canal_historia = bot.get_channel(1456028679967867156) #Historias
+    agora=datetime.datetime.now(pytz.timezone("America/Sao_Paulo"))
 
     try:
-        reset_str = bot.db.get("reset", "")
-        try:
-            last_reset_date = datetime.strptime(reset_str, "%Y-%m-%d").date()
-        except Exception:
-            
-            last_reset_date = datetime.now().date()
+        if agora.hour==12 and agora.minute==0: #no meio dia vai fazer oq ta dentro do if
+            historia_list = bot.db.get("historia", []) #Vai pegar a lista historia pra tentar resetar isso dai
 
-        hoje = datetime.now().date()
-        dias_passados = (hoje - last_reset_date).days
-        
-        #Verificar ce passou 1 dia 
-        if dias_passados >= 1:
-            
-            historia_list = bot.db.get("historia", [])
-            if historia_list:
-                texto = ", ".join(str(x) for x in historia_list if x is not None and x != "")
-
-                if canal_historia:
-                    await canal_historia.send(f"\nHistória antiga: {texto}\nHistórias zeradas 🔥😎\n||@everyone||")
-
+            if historia_list:  #Se o "historia_list" não ter historia ele não roda
+                texto = ", ".join(str(x) for x in historia_list if x is not None and x !="") 
+                await canal_historia.send(f"\nHistória antiga:{texto}\nHistorias zeradas🔥||@everyone||")
                 #Zerar o json
                 bot.db["historia"] = []
-                bot.db["reset"] = hoje.strftime("%Y-%m-%d")
                 save_db(bot.db)
-                print("Histórias zeradas e Data atualizada no JSON.")
             else:
-                if canal_historia:
-                    await canal_historia.send("Sem histórias pra zerar.😭")
-                #Atualiza a data do ultimo reset
-                bot.db["reset"] = hoje.strftime("%Y-%m-%d")
-                save_db(bot.db)
-                print("Nenhuma história para zerar. Data de reset atualizada no JSON.")
-        #Aqui não zerou as historias
-        else:
-            historia_list = bot.db.get("historia", []) #Tenta pegar a chave 'historia' dentro de bot.db,se ela não existir ele retorna uma lista vazia,vulgo "[]" 
-            if historia_list:
-                texto=', '.join(str(x) for x in historia_list if x is not None and x != "")
-            else:
-                texto = "Sem nenhuma historia"
-            if canal_historia:
-                await canal_historia.send(f"A Historia do dia {last_reset_date}: {texto}\n||@everyone||")
-            if canal_inicio:
-                await canal_inicio.send("O Monstro Chegou🔥😎")
-    except Exception as e:
-        print("Erro ao processar lógica de reset/ envio de mensagens:", e)
+                await canal_historia.send("Sem histórias pra zerar.😭")
+    except Exception as e:  
+        await canal_erros.send(f"Deu erro pra zerar o Json {e}")
 
+@bot.event 
+async def on_ready():
+    canal_erros = bot.get_channel(1457546195655332193) #Erros
+    canal_id2 = 1455213213670182912 #Inicio
+    canal_inicio = bot.get_channel(canal_id2)
+    #Carregando o JSON no "bot.db"
+    try: 
+        bot.db = load_db() 
+        if not isinstance (bot.db,dict):
+            bot.db("historia:",[])
+        print("Json carregado")
+        Historias_diaria.start()
+    except Exception as e:
+        await canal_erros.send(f"Deu erro pra Zerar o Json {e}") 
+        
+    await canal_inicio.send("O Monstro Chegou🔥😎") #Mandar mensagem de inicio 
+    
 bot.run(TOKEN)
