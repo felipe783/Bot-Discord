@@ -1,9 +1,9 @@
 import discord
-from discord.ext import commands , tasks
-from datetime import datetime, timedelta
-import os
-import json
+from discord.ext import commands 
+from discord.ext import tasks
+from datetime import datetime
 import pytz
+import os
 from pathlib import Path
 from dotenv import load_dotenv
 from loader import * 
@@ -46,11 +46,11 @@ class Teste(commands.Bot):
 bot = Teste()
 
 #vai checar a cada 1 minuto
-@bot.tasks(minutes=1)
+@tasks.loop(minutes=1)
 async def Historias_diaria():
     canal_erros = bot.get_channel(1457546195655332193) #Erros
     canal_historia = bot.get_channel(1456028679967867156) #Historias
-    agora=datetime.datetime.now(pytz.timezone("America/Sao_Paulo"))
+    agora=datetime.now(pytz.timezone("America/Sao_Paulo"))
 
     try:
         if agora.hour==12 and agora.minute==0: #no meio dia vai fazer oq ta dentro do if
