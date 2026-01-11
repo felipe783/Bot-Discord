@@ -1,6 +1,5 @@
 from typing import Optional
 from loader import * 
-import json
 import discord
 from discord import app_commands
 from discord.ext import commands
@@ -13,10 +12,11 @@ class historia(commands.Cog):
     @app_commands.describe(texto="Escreva uma frase e eu irei juntar com as outras ja escritas😎✍️")
     async def historia(self, interaction: discord.Interaction, texto: Optional[str] = None):
         texto = texto or ""
+        db = load_db() 
 
-        self.bot.db["historia"].append(texto)
-        save_db(self.bot.db)
-        await interaction.response.send_message(f"A historia ficou assim:{",".join(self.bot.db["historia"])}")
+        db["historia"].append(texto) #ele procura no db a variavel texto
+        save_db(db)
+        await interaction.response.send_message(f"A historia ficou assim:{",".join(db["historia"])}")
 
 async def setup(bot: commands.Bot):
     await bot.add_cog(historia(bot))
