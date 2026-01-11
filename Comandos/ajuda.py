@@ -34,6 +34,11 @@ class ajuda(commands.Cog):
             value="é esse que voce ta lendo",
             inline=False
         )
+        embed.add_field(
+            name="/Apagar",
+            value="Apagar a historia no momento que quiser\n** Apenas ADM pode usar **",
+            inline=False
+        )
         #ephemreal deixa so visto pro cara q chamo
         await interaction.response.send_message(embed=embed,ephemeral=True)
 

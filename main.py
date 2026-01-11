@@ -58,7 +58,7 @@ async def Historias_diaria():
 
             if historia_list:  #Se o "historia_list" não ter historia ele não roda
                 texto = ", ".join(str(x) for x in historia_list if x is not None and x !="") 
-                await canal_historia.send(f"\nHistória antiga:{texto}\nHistorias zeradas🔥||@everyone||")
+                await canal_historia.send(f"\nHistória antiga:{texto}\nHistorias zeradas🔥\n||@everyone||")
                 #Zerar o json
                 bot.db["historia"] = []
                 save_db(bot.db)

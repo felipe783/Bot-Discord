@@ -29,7 +29,7 @@ class apagar(commands.Cog):
                 db("historia:",[])
             if historia_list:  
                 texto = ", ".join(str(x) for x in historia_list if x is not None and x !="") 
-                await canal_historia.send(f"\nHistória antiga:{texto}\nHistorias zeradas🔥||@everyone||")
+                await canal_historia.send(f"\nHistória antiga:{texto}\nHistorias zeradas🔥\n||@everyone||")
                 #Zerar o json
                 db["historia"] = []
                 save_db(db)
