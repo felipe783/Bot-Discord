@@ -1,2 +1,2 @@
 #dasdsadasdsa
-__all__=["historia","ping","ajuda"]
+__all__=["historia","ping","ajuda","apagar"]

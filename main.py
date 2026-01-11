@@ -54,7 +54,7 @@ async def Historias_diaria():
 
     try:
         if agora.hour==12 and agora.minute==0: #no meio dia vai fazer oq ta dentro do if
-            historia_list = bot.db.get("historia", []) #Vai pegar a lista historia pra tentar resetar isso dai
+            historia_list = bot.db.get("historia", []) #Vai tentar pegar a lista historia,ce ela não existir retorna uma lsita vazia
 
             if historia_list:  #Se o "historia_list" não ter historia ele não roda
                 texto = ", ".join(str(x) for x in historia_list if x is not None and x !="") 
@@ -73,15 +73,16 @@ async def on_ready():
     canal_id2 = 1455213213670182912 #Inicio
     canal_inicio = bot.get_channel(canal_id2)
     #Carregando o JSON no "bot.db"
+    '''
     try: 
         bot.db = load_db() 
         if not isinstance (bot.db,dict):
             bot.db("historia:",[])
-        print("Json carregado")
         Historias_diaria.start()
     except Exception as e:
         await canal_erros.send(f"Deu erro pra Zerar o Json {e}") 
-        
+    '''
+    print(f"O {bot.user} logou")
     await canal_inicio.send("O Monstro Chegou🔥😎") #Mandar mensagem de inicio 
     
 bot.run(TOKEN)
