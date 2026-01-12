@@ -16,3 +16,7 @@
 
 - Neste comando é possivel apagar a historia antes do tempo de reset delas *(24 horas)*
 - É obrigatorio o cargo de `ADM` 
+
+### /Ver Historia
+
+- Neste comando é possivel ver como esta a `historia`
