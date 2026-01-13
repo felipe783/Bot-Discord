@@ -15,12 +15,11 @@ TOKEN = os.getenv("DISCORD_TOKEN")
 class Teste(commands.Bot):
     def __init__(self):
         intents = discord.Intents.default()
+        intents.message_content = True 
         super().__init__(command_prefix=".", intents=intents)
         self.db = None
-        self.config = {}
-
-    async def setup_hook(self):
         
+    async def setup_hook(self):
         #Carregar os Codigos
         comandos_path = Path("Comandos")
         if comandos_path.exists() and comandos_path.is_dir():
@@ -48,13 +47,20 @@ bot = Teste()
 #vai checar a cada 1 minuto
 @tasks.loop(minutes=1)
 async def Historias_diaria():
+    await bot.wait_until_ready()
     canal_erros = bot.get_channel(1457546195655332193) #Erros
     canal_historia = bot.get_channel(1456028679967867156) #Historias
     agora=datetime.now(pytz.timezone("America/Sao_Paulo"))
 
+    db = load_db()
+    if db is None:
+        db = {}
+    # garante que bot.db exista e aponte para o dict carregado
+    bot.db = db
+
     try:
-        if agora.hour==12 and agora.minute==0: #no meio dia vai fazer oq ta dentro do if
-            historia_list = bot.db.get("historia", []) #Vai tentar pegar a lista historia,ce ela não existir retorna uma lsita vazia
+        if agora.hour==12 and agora.minute==00: #no meio dia vai fazer oq ta dentro do if
+            historia_list = db.get("historia", []) #Vai tentar pegar a lista historia,ce ela não existir retorna uma lsita vazia
 
             if historia_list:  #Se o "historia_list" não ter historia ele não roda
                 texto = ", ".join(str(x) for x in historia_list if x is not None and x !="") 
@@ -65,12 +71,13 @@ async def Historias_diaria():
             else:
                 await canal_historia.send("Sem histórias pra zerar.😭")
     except Exception as e:  
-        await canal_erros.send(f"Deu erro pra zerar o Json {e}")
+        await canal_erros.send(f"Deu erro pra zerar o Json \n**{e}**")
 
 @bot.event 
 async def on_ready():
+    Historias_diaria.start()
     canal_erros = bot.get_channel(1457546195655332193) #Erros
-    canal_id2 = 1455213213670182912 #Inicio
+    canal_id2 = 1455213213670182912 #Inicio 
     canal_inicio = bot.get_channel(canal_id2)
     #Carregando o JSON no "bot.db"
     '''

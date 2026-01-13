@@ -1,6 +1,11 @@
 {
-    "historia": [
-        "aaaaaaaa",
-        "dasdas"
-    ]
+    "historia": [],
+    "mod": {
+        "id": "string",
+        "slug": "string",
+        "title": "string",
+        "description": "string",
+        "downloads": 0,
+        "icon_url": "string | null"
+    }
 }
