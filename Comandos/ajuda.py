@@ -20,23 +20,38 @@ class ajuda(commands.Cog):
             inline=False
         )
         embed.add_field(
-            name="/Ping",
+            name="/ping",
             value="O bot ira te responder com um **pong**",
             inline=False
         )
         embed.add_field(
-            name="/Historia",
+            name="/historia",
             value="O bot ira continuar a **historia** com a frase que voce escrever",
             inline=False
         )
         embed.add_field(
-            name="/Ajuda",
-            value="é esse que voce ta lendo",
+            name="/ver_historia",
+            value="Mostra a historia atual",
             inline=False
         )
         embed.add_field(
-            name="/Apagar",
+            name="/buscar_mod",
+            value="Procure o mod a sua escolha no Modrinth",
+            inline=False
+        )
+        embed.add_field(
+            name="/buscar_mod",
+            value="Procure o mod a sua escolha no Modrinth",
+            inline=False
+        )
+        embed.add_field(
+            name="/apagar",
             value="Apagar a historia no momento que quiser\n** Apenas ADM pode usar **",
+            inline=False
+        )
+        embed.add_field(
+            name="/ajuda",
+            value="é esse que voce ta lendo",
             inline=False
         )
         #ephemreal deixa so visto pro cara q chamo
