@@ -9,13 +9,13 @@ class apagar(commands.Cog):
         self.bot = bot
 
     # comando slash /ping
-    @app_commands.command(name="apagar", description="Apagar as historias antes do tempo")
+    @app_commands.command(name="apagar", description="Apagar as historias antes do tempo", default_member_permissions=discord.Permissions(administrator=True))
     async def ping(self, interaction: discord.Interaction):
         # checa cargo
         Id_cargo= 1120416496049463366
         if not any(role.id == Id_cargo for role in interaction.user.roles):
             await interaction.response.send_message(
-                "❌ Tu não tem cargo pra isso não, fi 😎",
+                "❌ Tu não tem cargo pra isso não, fi 😎aaaaaaaaaaaaaaaaaaaaaa",
                 ephemeral=True
             )
             return

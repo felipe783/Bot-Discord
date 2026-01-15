@@ -16,7 +16,7 @@ class Teste(commands.Bot):
     def __init__(self):
         intents = discord.Intents.default()
         intents.message_content = True 
-        super().__init__(command_prefix=".", intents=intents)
+        super().__init__(command_prefix="!", intents=intents)
         self.db = None
         
     async def setup_hook(self):
@@ -43,6 +43,17 @@ class Teste(commands.Bot):
             print("Falha ao sincronizar comandos da tree:", e)
 
 bot = Teste()
+
+@bot.command()
+@commands.is_owner() #Atualizar os comandos sem precisar reiniciar o bot,e so o DONO do bot pode rodar esse
+async def reload(ctx, ext: str):
+    #o RELOAD em si
+    "!reload nome_do_cog  -> recarrega cogs/nome_do_cog.py" 
+    try:
+        await bot.reload_extension(f"cogs.{ext}",ephemeral = True)
+        await ctx.send(f"✅ Recarregado: `{ext}` 🔥",ephemeral = True)
+    except Exception as e:
+        await ctx.send(f"❌ Erro ao recarregar `{ext}`:\n```py\n{e}\n```",ephemeral = True)
 
 #vai checar a cada 1 minuto
 @tasks.loop(minutes=1)
@@ -76,7 +87,32 @@ async def Historias_diaria():
 @bot.event 
 async def on_ready():
     Historias_diaria.start()
-    canal_erros = bot.get_channel(1457546195655332193) #Erros
+    #Criar um canal so pra ADM com os bagulho dos codigos
+    try:
+        Guild_Id = 1120406626881515655
+        guild = bot.get_guild(Guild_Id)
+        cargo = guild.get_role(1120416496049463366)
+
+        if(discord.utils.get(guild.text_channels, name="comandos-bot-teste")): #achou
+            canal=discord.utils.get(guild.text_channels, name="comandos-bot-teste")
+            print(f"Canal achado {canal.mention}")
+        else: #Não achou
+            overwrites={ #Vc literalmente sobre escreve oq o canal vai fazer(Permissões,quem ve,etc.....)
+                guild.default_role: discord.PermissionOverwrite(view_channel=False),
+                cargo: discord.PermissionOverwrite(
+                    view_channel = True,
+                    send_messages = True,
+                    read_message_history = True
+                )
+            }
+            canal = await guild.create_text_channel(
+                name="comandos-bot-teste",
+                overwrites = overwrites
+            )
+            print(f"canal criado {canal.mention}")
+    except Exception as e:
+        print(f"Deu erro pra achar o canal:{e}")
+    print("Reload ta on✅")
     canal_id2 = 1455213213670182912 #Inicio 
     canal_inicio = bot.get_channel(canal_id2)
     #Carregando o JSON no "bot.db"
