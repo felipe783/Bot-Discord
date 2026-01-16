@@ -10,6 +10,7 @@ class ReloadCog(commands.Cog):
     @app_commands.default_permissions(administrator=True)
     @app_commands.command(name="reload", description="Da reload nos comandos")
     async def reloadcog(self, interaction: discord.Interaction):
+        #Comando onde eu de reload em uma cog especifica pra eu não precisar ficar logando o bot toda vez
         print("sda")
 
 async def setup(bot: commands.Bot):

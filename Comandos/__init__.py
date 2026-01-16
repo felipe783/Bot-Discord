@@ -1,2 +1,10 @@
 #dasdsadasdsa
-__all__=["historia","ping","ajuda","apagar","ver_historia","buscar_mod"]
+__all__=[
+            "ajuda",
+            "apagar",
+            "buscar_mod",
+            "historia",
+            "ping",
+            "reload",
+            "ver_historia"
+        ]
