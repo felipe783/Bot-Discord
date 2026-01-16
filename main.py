@@ -44,17 +44,6 @@ class Teste(commands.Bot):
 
 bot = Teste()
 
-@bot.command()
-@commands.is_owner() #Atualizar os comandos sem precisar reiniciar o bot,e so o DONO do bot pode rodar esse
-async def reload(ctx, ext: str):
-    #o RELOAD em si
-    "!reload nome_do_cog  -> recarrega cogs/nome_do_cog.py" 
-    try:
-        await bot.reload_extension(f"cogs.{ext}",ephemeral = True)
-        await ctx.send(f"✅ Recarregado: `{ext}` 🔥",ephemeral = True)
-    except Exception as e:
-        await ctx.send(f"❌ Erro ao recarregar `{ext}`:\n```py\n{e}\n```",ephemeral = True)
-
 #vai checar a cada 1 minuto
 @tasks.loop(minutes=1)
 async def Historias_diaria():

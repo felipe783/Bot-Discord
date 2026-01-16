@@ -15,7 +15,7 @@ class apagar(commands.Cog):
         Id_cargo= 1120416496049463366
         if not any(role.id == Id_cargo for role in interaction.user.roles):
             await interaction.response.send_message(
-                "❌ Tu não tem cargo pra isso não, fi 😎aaaaaaaaaaaaaaaaaaaaaa",
+                "❌ Tu não tem cargo pra isso não, fi 😎",
                 ephemeral=True
             )
             return
