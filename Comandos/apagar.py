@@ -9,7 +9,8 @@ class apagar(commands.Cog):
         self.bot = bot
 
     # comando slash /ping
-    @app_commands.command(name="apagar", description="Apagar as historias antes do tempo", default_member_permissions=discord.Permissions(administrator=True))
+    @app_commands.default_permissions(administrator=True)
+    @app_commands.command(name="apagar", description="Apagar as historias antes do tempo")
     async def ping(self, interaction: discord.Interaction):
         # checa cargo
         Id_cargo= 1120416496049463366

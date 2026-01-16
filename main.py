@@ -47,6 +47,7 @@ bot = Teste()
 #vai checar a cada 1 minuto
 @tasks.loop(minutes=1)
 async def Historias_diaria():
+    #print("Iniciou os DEF Historias Diarias")
     await bot.wait_until_ready()
     canal_erros = bot.get_channel(1457546195655332193) #Erros
     canal_historia = bot.get_channel(1456028679967867156) #Historias
@@ -75,6 +76,7 @@ async def Historias_diaria():
 
 @bot.event 
 async def on_ready():
+    #print("Iniciou o ON_READY")
     Historias_diaria.start()
     #Criar um canal so pra ADM com os bagulho dos codigos
     try:
