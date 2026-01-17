@@ -103,7 +103,8 @@ async def on_ready():
             print(f"canal criado {canal.mention}")
     except Exception as e:
         print(f"Deu erro pra achar o canal:{e}")
-    print("Reload ta on✅")
+    #------------------------------------------------------------------
+    #print("Reload ta on✅")
     canal_id2 = 1455213213670182912 #Inicio 
     canal_inicio = bot.get_channel(canal_id2)
     #Carregando o JSON no "bot.db"
