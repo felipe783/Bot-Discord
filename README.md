@@ -1,6 +1,8 @@
 # Bot Teste🔥
 
 ## Comandos Normais:
+> ***Comandos onde qualquer um pode usar***
+
 ### /ajuda
 - Neste comando ira mostrar a `lista de comandos` do bot e uma pequena explicação sobre eles
 
