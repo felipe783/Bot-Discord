@@ -23,10 +23,11 @@ class Teste(commands.Bot):
         #Carregar os Codigos
         comandos_path = Path("Comandos")
         if comandos_path.exists() and comandos_path.is_dir():
-            for file in comandos_path.glob("*.py"):
+            for file in comandos_path.rglob("*.py"):
                 if file.name.startswith("_"):
                     continue
-                module = f"Comandos.{file.stem}"
+                relative_path = file.relative_to(comandos_path)
+                module = f"Comandos.{relative_path.with_suffix('').as_posix().replace('/', '.')}"
                 try:
                     await self.load_extension(module)
                     print(f"Carregado cog: {module}")
