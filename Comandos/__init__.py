@@ -1,10 +1,1 @@
-#dasdsadasdsa
-__all__=[
-            "ajuda",
-            "apagar",
-            "buscar_mod",
-            "historia",
-            "ping",
-            "reload",
-            "ver_historia"
-        ]
+#Tem nada aqui
