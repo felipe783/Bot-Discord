@@ -39,9 +39,10 @@ class ajuda(commands.Cog):
             value="Procure o mod a sua escolha no Modrinth",
             inline=False
         )
+        
         embed.add_field(
-            name="/buscar_mod",
-            value="Procure o mod a sua escolha no Modrinth",
+            name="**Comandos ADM**",
+            value="",
             inline=False
         )
         embed.add_field(
@@ -49,6 +50,12 @@ class ajuda(commands.Cog):
             value="Apagar a historia no momento que quiser\n** Apenas ADM pode usar **",
             inline=False
         )
+        embed.add_field(
+            name="/reload",
+            value="Da reload em todas as COGS\n** Apenas ADM pode usar **",
+            inline=False
+        )
+
         embed.add_field(
             name="/ajuda",
             value="é esse que voce ta lendo",
