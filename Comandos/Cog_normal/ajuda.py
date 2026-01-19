@@ -15,11 +15,6 @@ class ajuda(commands.Cog):
         )
 
         embed.add_field(
-            name="**Comandos:**",
-            value="",
-            inline=False
-        )
-        embed.add_field(
             name="/ping",
             value="O bot ira te responder com um **pong**",
             inline=False
