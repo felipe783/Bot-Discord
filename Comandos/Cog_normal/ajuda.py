@@ -9,7 +9,7 @@ class ajuda(commands.Cog):
     @app_commands.command(name="ajuda",description="Explicação dos comandos")
     async def ajuda(self,interaction:discord.Interaction):
         embed = discord.Embed(
-            title="Ajuda",
+            title="📖 Ajuda — Comandos Gerais",
             description="Resumo dos comandos do Bot",
             color=discord.Color.blue()
         )
@@ -39,30 +39,26 @@ class ajuda(commands.Cog):
             value="Procure o mod a sua escolha no Modrinth",
             inline=False
         )
-        
-        embed.add_field(
-            name="**Comandos ADM**",
-            value="",
-            inline=False
+
+        embed_admin = discord.Embed(
+            title="🛡️ Ajuda — Comandos ADM",
+            description="Apenas administradores",
+            color=discord.Color.red()
         )
-        embed.add_field(
+
+        embed_admin.add_field(
             name="/apagar",
-            value="Apagar a historia no momento que quiser\n** Apenas ADM pode usar **",
+            value="Apaga a história atual\n**Somente ADM**",
             inline=False
         )
-        embed.add_field(
+        embed_admin.add_field(
             name="/reload",
-            value="Da reload em todas as COGS\n** Apenas ADM pode usar **",
+            value="Recarrega todas as COGS\n**Somente ADM**",
             inline=False
         )
 
-        embed.add_field(
-            name="/ajuda",
-            value="é esse que voce ta lendo",
-            inline=False
-        )
         #ephemreal deixa so visto pro cara q chamo
-        await interaction.response.send_message(embed=embed,ephemeral=True)
+        await interaction.response.send_message(embeds=[embed,embed_admin],ephemeral=True)
 
 async def setup(bot: commands.Bot):
     await bot.add_cog(ajuda(bot))

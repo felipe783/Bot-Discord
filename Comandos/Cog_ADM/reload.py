@@ -20,7 +20,7 @@ class ReloadCog(commands.Cog):
                 relative_path = file.relative_to(comandos_path)
                 module = f"Comandos.{relative_path.with_suffix('').as_posix().replace('/', '.')}"
                 try:
-                    await self.load_extension(module)
+                    await self.bot.reload_extension(module)
                     print(f"Carregado cog: {module}")
                 except Exception as e:
                     print(f"Falha ao carregar {module}: {e}")
