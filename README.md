@@ -29,3 +29,7 @@
 ### /reload
 
 - Neste comando é possivel dar `Reload` em todos os comandos
+
+## Cogs de Criar canais:
+
+- Nesta pasta são criados os canais onde o bot ira necessitar para funcionar corretamento como o `canal História`
