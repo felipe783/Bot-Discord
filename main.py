@@ -16,6 +16,7 @@ class Teste(commands.Bot):
     def __init__(self):
         intents = discord.Intents.default()
         intents.message_content = True 
+        intents.guilds = True
         super().__init__(command_prefix="!", intents=intents)
         self.db = None
         
@@ -77,47 +78,9 @@ async def Historias_diaria():
 
 @bot.event 
 async def on_ready():
-    #print("Iniciou o ON_READY")
     Historias_diaria.start()
-    #Criar um canal so pra ADM com os bagulho dos codigos
-    try:
-        Guild_Id = 1120406626881515655
-        guild = bot.get_guild(Guild_Id)
-        cargo = guild.get_role(1120416496049463366)
-
-        if(discord.utils.get(guild.text_channels, name="comandos-bot-teste")): #achou
-            canal=discord.utils.get(guild.text_channels, name="comandos-bot-teste")
-            print(f"Canal achado {canal.mention}")
-        else: #Não achou
-            overwrites={ #Vc literalmente sobre escreve oq o canal vai fazer(Permissões,quem ve,etc.....)
-                guild.default_role: discord.PermissionOverwrite(view_channel=False),
-                cargo: discord.PermissionOverwrite(
-                    view_channel = True,
-                    send_messages = True,
-                    read_message_history = True
-                )
-            }
-            canal = await guild.create_text_channel(
-                name="comandos-bot-teste",
-                overwrites = overwrites
-            )
-            print(f"canal criado {canal.mention}")
-    except Exception as e:
-        print(f"Deu erro pra achar o canal:{e}")
-    #------------------------------------------------------------------
-    #print("Reload ta on✅")
     canal_id2 = 1455213213670182912 #Inicio 
     canal_inicio = bot.get_channel(canal_id2)
-    #Carregando o JSON no "bot.db"
-    '''
-    try: 
-        bot.db = load_db() 
-        if not isinstance (bot.db,dict):
-            bot.db("historia:",[])
-        Historias_diaria.start()
-    except Exception as e:
-        await canal_erros.send(f"Deu erro pra Zerar o Json {e}") 
-    '''
     print(f"O {bot.user} logou")
     await canal_inicio.send("O Monstro Chegou🔥😎") #Mandar mensagem de inicio 
     

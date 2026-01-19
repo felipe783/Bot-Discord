@@ -9,12 +9,12 @@ class historia(commands.Cog):
         self.bot = bot
 
     @app_commands.command(name="historia", description="Crie uma história!")
-    @app_commands.describe(texto="Escreva uma frase e eu irei juntar com as outras ja escritas😎✍️")
+    @app_commands.describe(texto="Escreva uma frase e eu irei juntar com as outras ja escritas😎")
     async def historia(self, interaction: discord.Interaction, texto: Optional[str] = None):
         texto = texto or ""
         db = load_db() 
 
-        db["historia"].append(texto) #ele procura no db a variavel texto
+        db["historia"].append(texto) #ele procura no db a variavel "historia" e add o "texto"
         save_db(db)
         await interaction.response.send_message(f"A historia ficou assim:{",".join(db["historia"])}")
 
