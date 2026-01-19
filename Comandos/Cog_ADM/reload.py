@@ -14,17 +14,18 @@ class ReloadCog(commands.Cog):
         canal = self.bot.get_channel(ID)
         comandos_path = Path("Comandos")
         if comandos_path.exists() and comandos_path.is_dir():
-            for file in comandos_path.glob("*.py"):
+            for file in comandos_path.rglob("*.py"):
                 if file.name.startswith("_"):
                     continue
-                module = f"Comandos.{file.stem}"
+                relative_path = file.relative_to(comandos_path)
+                module = f"Comandos.{relative_path.with_suffix('').as_posix().replace('/', '.')}"
                 try:
-                    await self.bot.reload_extension(module)
-                    await canal.send(f"Carregado cog: {module}",ephemeral = True)
+                    await self.load_extension(module)
+                    print(f"Carregado cog: {module}")
                 except Exception as e:
-                    await  canal.send(f"Falaha ao carregar {module}\nErro:{e}")
+                    print(f"Falha ao carregar {module}: {e}")
         else:
-            await  canal.send(f"Pasta 'Comandos' não encontrada")
+            print("Pasta 'Comandos' não encontrada. Verifique a estrutura do projeto.")
             
 async def setup(bot: commands.Bot):
     await bot.add_cog(ReloadCog(bot))

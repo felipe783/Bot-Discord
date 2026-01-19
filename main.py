@@ -11,6 +11,7 @@ from loader import *
 # carrega .env
 load_dotenv()
 TOKEN = os.getenv("DISCORD_TOKEN")
+DB = load_db()
 
 class Teste(commands.Bot):
     def __init__(self):
@@ -51,8 +52,8 @@ bot = Teste()
 async def Historias_diaria():
     #print("Iniciou os DEF Historias Diarias")
     await bot.wait_until_ready()
-    canal_erros = bot.get_channel(1457546195655332193) #Erros
-    canal_historia = bot.get_channel(1456028679967867156) #Historias
+    
+    canal_historia = bot.get_channel(DB["ID_Historia"][0]) #Historias
     agora=datetime.now(pytz.timezone("America/Sao_Paulo"))
 
     db = load_db()
@@ -74,7 +75,7 @@ async def Historias_diaria():
             else:
                 await canal_historia.send("Sem histórias pra zerar.😭")
     except Exception as e:  
-        await canal_erros.send(f"Deu erro pra zerar o Json \n**{e}**")
+        print(f"Deu erro pra zerar o Json \n**{e}**")
 
 @bot.event 
 async def on_ready():

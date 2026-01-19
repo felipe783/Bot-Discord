@@ -3,6 +3,7 @@ from discord import app_commands
 from discord.ext import commands
 from loader import * 
 
+DB = load_db()
 #O apagar ta funcionando
 class apagar(commands.Cog):
     def __init__(self, bot: commands.Bot):
@@ -23,8 +24,7 @@ class apagar(commands.Cog):
         
         db = load_db() 
         historia_list = db.get("historia", []) 
-        canal_erros = self.bot.get_channel(1457546195655332193)
-        canal_historia = self.bot.get_channel(1456028679967867156)
+        canal_historia = self.bot.get_channel(DB["ID_Historia"][0])
         try: 
             if not isinstance (db,dict): 
                 db("historia:",[])
@@ -37,7 +37,7 @@ class apagar(commands.Cog):
             else:
                 await canal_historia.send("Sem histórias pra zerar.😭")
         except Exception as e:
-            await canal_erros.send(f"Deu erro pra Zerar o Json {e}")
+            print(f"Deu erro pra Zerar o Json {e}")
         
         await interaction.response.send_message("Historias apagadas",ephemeral=True)
 
