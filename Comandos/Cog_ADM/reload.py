@@ -22,6 +22,7 @@ class ReloadCog(commands.Cog):
                 try:
                     await self.bot.reload_extension(module)
                     print(f"Carregado cog: {module}")
+                    await interaction.response.send_message("Cog recarregadas",ephemeral = True )
                 except Exception as e:
                     print(f"Falha ao carregar {module}: {e}")
         else:

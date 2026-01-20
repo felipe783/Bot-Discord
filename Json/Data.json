@@ -1,5 +1,7 @@
 {
-    "historia": [],
+    "historia": [
+        ""
+    ],
     "mod": {
         "id": "string",
         "slug": "string",

@@ -18,6 +18,10 @@
 
 - Neste comando é possivel ver como esta a `historia`
 
+### /blackjack 
+
+- Inicia uma partida de `blackjack` onde é necessario usar o `/hit` para adicionar uma nova carta
+
 ## Comandos ADM:
 > ***São comandos onde apenas pessoas com determinado(ADM) cargo podem usar***
 
