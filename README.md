@@ -28,8 +28,7 @@
 - Neste comando o usuário escreve o nome de um `mod` e a API faz a busca e forneece as informações:`descrição,donwloads,autor`
 
 ## Comandos ADM:
-> ***São comandos onde apenas pessoas com determinado cargo podem usar***
-> que no caso é o cargo `ADM`
+> ***São comandos onde apenas pessoas com determinado cargo podem usar***,que no caso é o cargo `ADM`
 
 ### /apagar
 
