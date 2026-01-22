@@ -7,12 +7,12 @@
 - Neste comando ira mostrar a `lista de comandos` do bot e uma pequena explicação sobre eles
 
 ### /ping
-- O bot vai responder quem chamou com um pong
+- O bot vai `responder` quem chamou com um `pong`
 
 ### /historia {texto}
 
 - Neste comando sera possivel `juntar` as `frases(texto)` escritas pelos membros do servidor e formar uma `historia`
-- E a cada dia as `historias` são zeradas e é enviado uma `copia` inteira da `ultima historia` no canal
+- E a cada dia as `historias` são zeradas e é enviado uma `copia` inteira da `ultima historia` no `canal historia`
 
 ### /ver Historia
 
