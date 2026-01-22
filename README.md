@@ -24,7 +24,7 @@
 
 ### /buscar_mod
 >[Documentação da API](https://docs.modrinth.com/api/)
-- Comando onde usa a API `Labrinth ` criada pela equipe do `Modrinth`
+- Comando onde usa a API `Labrinth` criada pela equipe do `Modrinth`
 - Neste comando o usuário escreve o nome de um `mod` e a API faz a busca e forneece as informações:`descrição,donwloads,autor`
 
 ## Comandos ADM:
