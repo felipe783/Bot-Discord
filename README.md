@@ -28,12 +28,12 @@
 - Neste comando o usuário escreve o nome de um `mod` e a API faz a busca e forneece as informações:`descrição,donwloads,autor`
 
 ## Comandos ADM:
-> ***São comandos onde apenas pessoas com determinado(ADM) cargo podem usar***
+> ***São comandos onde apenas pessoas com determinado cargo podem usar***
+> que no caso é o cargo `ADM`
 
 ### /apagar
 
 - Neste comando é possivel apagar a historia antes do tempo de reset delas *(24 horas)*
-- É obrigatorio o cargo de `ADM` 
 
 ### /reload
 
