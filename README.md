@@ -23,10 +23,9 @@
 - Inicia uma partida de `blackjack` onde é necessario usar o `/hit` para adicionar uma nova carta
 
 ### /buscar_mod
-
+>[Documentação da API](https://docs.modrinth.com/api/)
 - Comando onde usa a API `Labrinth ` criada pela equipe do `Modrinth`
 - Neste comando o usuário escreve o nome de um `mod` e a API faz a busca e forneece as informações:`descrição,donwloads,autor`
-- - dOC
 
 ## Comandos ADM:
 > ***São comandos onde apenas pessoas com determinado(ADM) cargo podem usar***
