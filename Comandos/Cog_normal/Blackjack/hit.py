@@ -30,6 +30,7 @@ class hit(commands.Cog):
             return
 
         jogo = estados.jogos[user_id]
+        jogo["doubledown"] = False #Ele não pode dar DoubleDown
         duracao = jogo.get("duracao")
 
         carta = jogo["baralho"].pop()

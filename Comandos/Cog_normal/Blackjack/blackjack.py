@@ -65,7 +65,8 @@ class blackjack(commands.Cog):
             "baralho" : baralho,
             "mao": mao,
             "dealer" : dealer,
-            "duracao" : duracao
+            "duracao" : duracao,
+            "doubledown" : True
         }
 
         pontos = calcular_pontos(mao)
