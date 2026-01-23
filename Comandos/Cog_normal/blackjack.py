@@ -35,6 +35,12 @@ def criar_baralho():
                 })
     random.shuffle(baralho) #Ele ta aleatorizando e colocando no baralho a sequência
     return baralho
+
+def tem_blackjack(mao):
+    nome = [c["nome"]for c in mao]
+    valor = [c["valor"]for c in mao]
+    
+    return "Ás" in nome and 10 in valor 
     
 class blackjack(commands.Cog):
     def __init__(self, bot: commands.Bot):
@@ -47,6 +53,12 @@ class blackjack(commands.Cog):
         
         estados.duracao[user_id]=duracao
 
+        if(duracao <= 0 ):
+            await interaction.response.send_message(
+                "Aposta ai irmão,aqui so trabalho com números acima de 0😎🔥"
+            )
+            return #aqui garante que o codigo para
+        
         baralho = criar_baralho()
         mao = [baralho.pop(),baralho.pop()]
         dealer = [baralho.pop(),baralho.pop()]
@@ -58,11 +70,19 @@ class blackjack(commands.Cog):
         }
 
         pontos = calcular_pontos(mao)
-
-        await interaction.response.send_message(
-            f"🃏 Suas cartas:{formatar_mao(mao)}\n"
-            f"📊 Pontos: **{pontos}**"
-        )
+        if tem_blackjack(mao):
+            await interaction.response.send_message(
+                f"Os Deus do Blackjack estavam do seu lado {user_id}🙌🙏\n"
+                "Você fez Blackjack com:\n"
+                f"🃏 Suas cartas:{formatar_mao(mao)}\n"
+                f"📊 Pontos: **{pontos}**"
+            )
+            return #Ele ganhou o blackjack
+        else:
+            await interaction.response.send_message(
+                f"🃏 Suas cartas:{formatar_mao(mao)}\n"
+                f"📊 Pontos: **{pontos}**"
+            )
 
 async def setup(bot : commands.Bot):
     await bot.add_cog(blackjack(bot))
