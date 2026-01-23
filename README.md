@@ -18,8 +18,9 @@
 
 - Neste comando é possivel ver como esta a `historia`
 
-### /blackjack 
-
+### /blackjack {aposta} 
+> O argumento **Aposta** é obrigátorio
+ 
 - Inicia uma partida de `blackjack` onde é necessario usar o `/hit` para adicionar uma nova carta
 
 ### /buscar_mod

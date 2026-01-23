@@ -2,6 +2,7 @@ import discord
 from discord import app_commands
 from discord.ext import commands
 import estados
+from datetime import timedelta
 
 def formatar_mao(mao):
     return " ".join(f"{c['nome']}{c['naipe']}" for c in mao)
@@ -22,7 +23,6 @@ class hit(commands.Cog):
 
     @app_commands.command(name="hit", description="Comprar mais uma carta")
     async def hit(self, interaction: discord.Interaction):
-        duracao = estados.duracao.get(user_id)
         user_id = interaction.user.id
 
         if user_id not in estados.jogos: #Garante que ele ta em um Jogo
@@ -30,6 +30,7 @@ class hit(commands.Cog):
             return
 
         jogo = estados.jogos[user_id]
+        duracao = jogo.get("duracao")
 
         carta = jogo["baralho"].pop()
         jogo["mao"].append(carta)
@@ -51,7 +52,7 @@ class hit(commands.Cog):
                     f"💥 Estourou!\nCartas: {formatar_mao(jogo["mao"])}\n"
                     f"Pontos: **{pontos}**"
                 )
-                await interaction.user.timeout(duracao, reason="Muito ruim no Blackjack")
+                await interaction.user.timeout(timedelta(minutes=duracao), reason="Muito ruim no Blackjack")
             else:
                 await interaction.response.send_message(
                     f"🃏 Nova carta:{formatar_mao(jogo["mao"])}\n"

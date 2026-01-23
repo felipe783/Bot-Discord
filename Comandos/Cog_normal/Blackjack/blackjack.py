@@ -47,12 +47,10 @@ class blackjack(commands.Cog):
         self.bot = bot
 
     @app_commands.command(name="blackjack",description="Começe a jogar blackjack!")
-    async def blackjack(self, interaction:discord.Interaction,minutos : int):
+    async def blackjack(self, interaction:discord.Interaction,aposta : int):
         duracao = minutos
         user_id = interaction.user.id
         
-        estados.duracao[user_id]=duracao
-
         if(duracao <= 0 ):
             await interaction.response.send_message(
                 "Aposta ai irmão,aqui so trabalho com números acima de 0😎🔥"
@@ -67,6 +65,7 @@ class blackjack(commands.Cog):
             "baralho" : baralho,
             "mao": mao,
             "dealer" : dealer,
+            "duracao" : duracao
         }
 
         pontos = calcular_pontos(mao)
@@ -82,7 +81,7 @@ class blackjack(commands.Cog):
             await interaction.response.send_message(
                 f"🃏 Suas cartas:{formatar_mao(mao)}\n"
                 f"📊 Pontos: **{pontos}**\n"
-                f"🃏Cartas do **DEALER:**{formatar_mao(dealer)}"
+                f"🃏Cartas do **DEALER:**{dealer[0]['nome']}{dealer[0]['naipe']}"
             )
 
 async def setup(bot : commands.Bot):
