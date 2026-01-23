@@ -22,7 +22,7 @@
 > O argumento **Aposta** é obrigátorio
 - Inicia uma partida de `blackjack`
     #### /hit
-        - Compra uma carta
+    - Compra uma carta
 
     #### /double_down
 
