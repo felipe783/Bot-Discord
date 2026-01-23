@@ -19,7 +19,7 @@
 
 - Neste comando é possivel ver como esta a `historia`
 
-### [/blackjack](https://github.com/felipe783/Bot-Discord/tree/main/Comandos/Cog_normal/Blackjack) {aposta} 
+### /blackjack {aposta} 
 > O argumento **Aposta** é obrigátorio
 - Inicia uma partida de `blackjack`
     #### /hit
