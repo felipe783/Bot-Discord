@@ -7,14 +7,14 @@
 - Neste comando ira mostrar a `lista de comandos` do bot e uma pequena explicação sobre eles
 
 ### /ping
-- O bot vai responder quem chamou com um pong
+- O bot vai `responder` quem chamou com um `pong`
 
 ### /historia {texto}
 
 - Neste comando sera possivel `juntar` as `frases(texto)` escritas pelos membros do servidor e formar uma `historia`
-- E a cada dia as `historias` são zeradas e é enviado uma `copia` inteira da `ultima historia` no canal
+- E a cada dia as `historias` são zeradas e é enviado uma `copia` inteira da `ultima historia` no `canal historia`
 
-### /Ver Historia
+### /ver Historia
 
 - Neste comando é possivel ver como esta a `historia`
 
@@ -22,13 +22,17 @@
 
 - Inicia uma partida de `blackjack` onde é necessario usar o `/hit` para adicionar uma nova carta
 
+### /buscar_mod
+>[Documentação da API](https://docs.modrinth.com/api/)
+- Comando onde usa a API `Labrinth` criada pela equipe do `Modrinth`
+- Neste comando o usuário escreve o nome de um `mod` e a API faz a busca e forneece as informações:`descrição,donwloads,autor`
+
 ## Comandos ADM:
-> ***São comandos onde apenas pessoas com determinado(ADM) cargo podem usar***
+> ***São comandos onde apenas pessoas com determinado cargo podem usar***,que no caso é o cargo `ADM`
 
 ### /apagar
 
 - Neste comando é possivel apagar a historia antes do tempo de reset delas *(24 horas)*
-- É obrigatorio o cargo de `ADM` 
 
 ### /reload
 
