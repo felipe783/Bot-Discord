@@ -16,7 +16,7 @@ class historia(commands.Cog):
 
         db["historia"].append(texto) #ele procura no db a variavel "historia" e add o "texto"
         save_db(db)
-        await interaction.response.send_message(f"A historia ficou assim:{",".join(db["historia"])}")
+        await interaction.response.send_message(f"A historia ficou assim:{", ".join(db["historia"])}")
 
 async def setup(bot: commands.Bot):
     await bot.add_cog(historia(bot))

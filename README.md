@@ -15,11 +15,11 @@
 - Neste comando sera possivel `juntar` as `frases(texto)` escritas pelos membros do servidor e formar uma `historia`
 - E a cada dia as `historias` são zeradas e é enviado uma `copia` inteira da `ultima historia` no `canal historia`
 
-### /ver Historia
+### /ver historia
 
 - Neste comando é possivel ver como esta a `historia`
 
-### /blackjack {aposta} 
+### [/blackjack](https://github.com/felipe783/Bot-Discord/tree/main/Comandos/Cog_normal/Blackjack) {aposta} 
 > O argumento **Aposta** é obrigátorio
 - Inicia uma partida de `blackjack`
     #### /hit

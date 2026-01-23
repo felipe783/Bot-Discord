@@ -11,7 +11,7 @@ class VerHistoria(commands.Cog):
     @app_commands.command(name="ver_historia", description="Veja a história!")
     async def historia(self, interaction: discord.Interaction):
         db = load_db() 
-        historia = ",".join(db["historia"])
+        historia = ", ".join(db["historia"])
         await interaction.response.send_message(f"A historia ficou assim:{historia}",ephemeral=True)
 
 async def setup(bot: commands.Bot):
