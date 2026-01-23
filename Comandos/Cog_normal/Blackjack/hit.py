@@ -1,7 +1,7 @@
 import discord
 from discord import app_commands
 from discord.ext import commands
-import estados
+import Estados.estados_Blackjack as estados_Blackjack
 from datetime import timedelta
 
 def formatar_mao(mao):
@@ -25,11 +25,11 @@ class hit(commands.Cog):
     async def hit(self, interaction: discord.Interaction):
         user_id = interaction.user.id
 
-        if user_id not in estados.jogos: #Garante que ele ta em um Jogo
+        if user_id not in estados_Blackjack.jogos: #Garante que ele ta em um Jogo
             await interaction.response.send_message("Tu nem começou um jogo😭",ephemeral=True)
             return
 
-        jogo = estados.jogos[user_id]
+        jogo = estados_Blackjack.jogos[user_id]
         jogo["doubledown"] = False #Ele não pode dar DoubleDown
         duracao = jogo.get("duracao")
 
@@ -43,22 +43,24 @@ class hit(commands.Cog):
 
         if dealerP < 17: #Dealer é obrigado a comprar quando é menor que 17
             dealerP = calcular_pontos(jogo["dealer"])
-        if dealerP > 21:
-            await interaction.response.send_message(
-                f"O Dealer estourou💥\n"
-                f"A mesa ganhou,você teve sorte dessa vez...🔥"
-            )
         else:
             if pontos > 21:
-                del estados.jogos[user_id]
                 await interaction.response.send_message(
-                    f"💥 Estourou!\nCartas: {formatar_mao(jogo["mao"])}\n"
+                    f"💥 Estourou!\nCartas: {formatar_mao(jogo['mao'])}\n"
                     f"Pontos: **{pontos}**"
                 )
                 await interaction.user.timeout(timedelta(minutes=duracao), reason="Muito ruim no Blackjack")
+                del estados_Blackjack.jogos[user_id]
+                return
+            if dealerP > 21: #O dealer tem uma pequena vantagem(A casa sempre ganha😎🔥)
+                await interaction.response.send_message(
+                    f"O Dealer estourou💥\n"
+                    f"A mesa ganhou,você teve sorte dessa vez...🔥"
+                )
+                del estados_Blackjack.jogos[user_id]
             else:
                 await interaction.response.send_message(
-                    f"🃏 Nova carta:{formatar_mao(jogo["mao"])}\n"
+                    f"🃏 Nova carta:{formatar_mao(jogo['mao'])}\n"
                     f"📊 Pontos: **{pontos}**"
                 )
         

@@ -2,7 +2,7 @@ import discord
 from discord import app_commands
 from discord.ext import commands
 import random
-import estados
+import Estados.estados_Blackjack as estados_Blackjack
 
 def formatar_mao(mao):
     return " ".join(f"{c['nome']}{c['naipe']}" for c in mao)
@@ -51,7 +51,7 @@ class blackjack(commands.Cog):
         duracao = aposta
         user_id = interaction.user.id
 
-        if user_id in estados.jogos: #Garante que o user não esteja em um jogo
+        if user_id in estados_Blackjack.jogos: #Garante que o user não esteja em um jogo
             await interaction.response.send_message("Tu já esta em um jogo😎",ephemeral=True)
             return
         
@@ -62,10 +62,10 @@ class blackjack(commands.Cog):
             return #aqui garante que o codigo para
         
         baralho = criar_baralho()
-        mao = [baralho.pop(),baralho.pop()]
         dealer = [baralho.pop(),baralho.pop()]
-
-        estados.jogos[user_id]= { #Cada user tem uma "mesa de blackjack"
+        mao = [baralho.pop(),baralho.pop()]
+        
+        estados_Blackjack.jogos[user_id]= { #Cada user tem uma "mesa de blackjack"
             "baralho" : baralho,
             "mao": mao,
             "dealer" : dealer,

@@ -2,7 +2,7 @@ import discord
 from discord import app_commands
 from discord.ext import commands
 import random
-import estados
+import Estados.estados_Blackjack as estados_Blackjack
 
 class double_down(commands.Cog):
     def __init__(self,bot: commands.Bot):
@@ -12,9 +12,9 @@ class double_down(commands.Cog):
     async def double_down(self, interaction:discord.Interaction):
 
         user_id = interaction.user.id
-        jogo = estados.jogos[user_id]
+        jogo = estados_Blackjack.jogos[user_id]
 
-        if user_id not in estados.jogos: #Garante que ele ta em um Jogo
+        if user_id not in estados_Blackjack.jogos: #Garante que ele ta em um Jogo
             await interaction.response.send_message("Tu nem começou um jogo😭",ephemeral=True)
             return
         if not jogo["doubledown"]:
