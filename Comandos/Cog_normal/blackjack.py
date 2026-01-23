@@ -81,7 +81,8 @@ class blackjack(commands.Cog):
         else:
             await interaction.response.send_message(
                 f"🃏 Suas cartas:{formatar_mao(mao)}\n"
-                f"📊 Pontos: **{pontos}**"
+                f"📊 Pontos: **{pontos}**\n"
+                f"🃏Cartas do **DEALER:**{formatar_mao(dealer)}"
             )
 
 async def setup(bot : commands.Bot):

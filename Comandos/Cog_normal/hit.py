@@ -25,7 +25,7 @@ class hit(commands.Cog):
         duracao = estados.duracao.get(user_id)
         user_id = interaction.user.id
 
-        if user_id not in estados.jogos:
+        if user_id not in estados.jogos: #Garante que ele ta em um Jogo
             await interaction.response.send_message("Tu nem começou um jogo😭",ephemeral=True)
             return
 
@@ -35,19 +35,28 @@ class hit(commands.Cog):
         jogo["mao"].append(carta)
 
         pontos = calcular_pontos(jogo["mao"])
+        dealerP = calcular_pontos(jogo["dealer"])
 
-        if pontos > 21:
-            del estados.jogos[user_id]
+        if dealerP < 17: #Dealer é obrigado a comprar quando é menor que 17
+            dealerP = calcular_pontos(jogo["dealer"])
+        if dealerP > 21:
             await interaction.response.send_message(
-                f"💥 Estourou!\nCartas: {formatar_mao(jogo["mao"])}\n"
-                f"Pontos: **{pontos}**"
+                f"O Dealer estourou💥"
+                f"A mesa ganhou,você teve sorte dessa vez...😭"
             )
-            await interaction.user.timeout(duracao, reason="Muito ruim no blackjack")
         else:
-            await interaction.response.send_message(
-                f"🃏 Nova carta:{formatar_mao(jogo["mao"])}\n"
-                f"📊 Pontos: **{pontos}**"
-            )
-
+            if pontos > 21:
+                del estados.jogos[user_id]
+                await interaction.response.send_message(
+                    f"💥 Estourou!\nCartas: {formatar_mao(jogo["mao"])}\n"
+                    f"Pontos: **{pontos}**"
+                )
+                await interaction.user.timeout(duracao, reason="Muito ruim no Blackjack")
+            else:
+                await interaction.response.send_message(
+                    f"🃏 Nova carta:{formatar_mao(jogo["mao"])}\n"
+                    f"📊 Pontos: **{pontos}**"
+                )
+        
 async def setup(bot):
     await bot.add_cog(hit(bot))
