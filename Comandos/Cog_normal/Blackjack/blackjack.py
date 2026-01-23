@@ -18,7 +18,7 @@ def calcular_pontos(mao):
     return total
 
 def criar_baralho():
-    naipes = ["♠", "♥", "♦", "♣"]
+    naipes = ["♠️", "♥️", "♦️", "♣️"]
     valores = {
         "Ás": 11,
         "2": 2, "3": 3, "4": 4, "5": 5,
@@ -48,12 +48,12 @@ class blackjack(commands.Cog):
 
     @app_commands.command(name="blackjack",description="Começe a jogar blackjack!")
     async def blackjack(self, interaction:discord.Interaction,aposta : int):
-        duracao = minutos
+        duracao = aposta
         user_id = interaction.user.id
         
         if(duracao <= 0 ):
             await interaction.response.send_message(
-                "Aposta ai irmão,aqui so trabalho com números acima de 0😎🔥"
+                "Aposta ai irmão,aqui so trabalho com números acima de 0 😎🔥"
             )
             return #aqui garante que o codigo para
         
@@ -79,9 +79,9 @@ class blackjack(commands.Cog):
             return #Ele ganhou o blackjack
         else:
             await interaction.response.send_message(
-                f"🃏 Suas cartas:{formatar_mao(mao)}\n"
+                f"🃏 Suas cartas: {formatar_mao(mao)}\n"
                 f"📊 Pontos: **{pontos}**\n"
-                f"🃏Cartas do **DEALER:**{dealer[0]['nome']}{dealer[0]['naipe']}"
+                f"🃏Cartas do Dealer: {formatar_mao(dealer[:1])}"
             )
 
 async def setup(bot : commands.Bot):

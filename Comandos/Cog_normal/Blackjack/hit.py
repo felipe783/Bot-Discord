@@ -34,6 +34,8 @@ class hit(commands.Cog):
 
         carta = jogo["baralho"].pop()
         jogo["mao"].append(carta)
+        cartaD = jogo["baralho"].pop()
+        jogo["dealer"].append(cartaD)
 
         pontos = calcular_pontos(jogo["mao"])
         dealerP = calcular_pontos(jogo["dealer"])
@@ -42,8 +44,8 @@ class hit(commands.Cog):
             dealerP = calcular_pontos(jogo["dealer"])
         if dealerP > 21:
             await interaction.response.send_message(
-                f"O Dealer estourou💥"
-                f"A mesa ganhou,você teve sorte dessa vez...😭"
+                f"O Dealer estourou💥\n"
+                f"A mesa ganhou,você teve sorte dessa vez...🔥"
             )
         else:
             if pontos > 21:
