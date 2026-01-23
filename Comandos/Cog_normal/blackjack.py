@@ -41,9 +41,12 @@ class blackjack(commands.Cog):
         self.bot = bot
 
     @app_commands.command(name="blackjack",description="Começe a jogar blackjack!")
-    async def blackjack(self, interaction:discord.Interaction):
+    async def blackjack(self, interaction:discord.Interaction,minutos : int):
+        duracao = minutos
         user_id = interaction.user.id
         
+        estados.duracao[user_id]=duracao
+
         baralho = criar_baralho()
         mao = [baralho.pop(),baralho.pop()]
         dealer = [baralho.pop(),baralho.pop()]

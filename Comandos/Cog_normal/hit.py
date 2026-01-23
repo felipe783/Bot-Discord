@@ -22,6 +22,7 @@ class hit(commands.Cog):
 
     @app_commands.command(name="hit", description="Comprar mais uma carta")
     async def hit(self, interaction: discord.Interaction):
+        duracao = estados.duracao.get(user_id)
         user_id = interaction.user.id
 
         if user_id not in estados.jogos:
@@ -41,6 +42,7 @@ class hit(commands.Cog):
                 f"💥 Estourou!\nCartas: {formatar_mao(jogo["mao"])}\n"
                 f"Pontos: **{pontos}**"
             )
+            await interaction.user.timeout(duracao, reason="Muito ruim no blackjack")
         else:
             await interaction.response.send_message(
                 f"🃏 Nova carta:{formatar_mao(jogo["mao"])}\n"
