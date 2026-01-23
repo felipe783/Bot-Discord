@@ -20,8 +20,11 @@
 
 ### /blackjack {aposta} 
 > O argumento **Aposta** é obrigátorio
- 
-- Inicia uma partida de `blackjack` onde é necessario usar o `/hit` para adicionar uma nova carta
+- Inicia uma partida de `blackjack`
+    #### /hit
+        - Compra uma carta
+
+    #### /double_down
 
 ### /buscar_mod
 >[Documentação da API](https://docs.modrinth.com/api/)
