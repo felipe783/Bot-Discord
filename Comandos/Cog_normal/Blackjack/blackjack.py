@@ -50,6 +50,10 @@ class blackjack(commands.Cog):
     async def blackjack(self, interaction:discord.Interaction,aposta : int):
         duracao = aposta
         user_id = interaction.user.id
+
+        if user_id in estados.jogos: #Garante que o user não esteja em um jogo
+            await interaction.response.send_message("Tu já esta em um jogo😎",ephemeral=True)
+            return
         
         if(duracao <= 0 ):
             await interaction.response.send_message(
