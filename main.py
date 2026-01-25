@@ -4,6 +4,7 @@ from discord.ext import tasks
 from datetime import datetime
 import pytz
 import os
+import asyncio
 from pathlib import Path
 from dotenv import load_dotenv
 from loader import * 
@@ -22,6 +23,13 @@ class Teste(commands.Bot):
         self.db = None
         
     async def setup_hook(self):
+        ''' #Isso daqui limpa o bot inteiro
+        SEU_GUILD_ID = 1120406626881515655
+        guild = discord.Object(id=SEU_GUILD_ID)
+        bot.tree.clear_commands(guild=guild)
+        await bot.tree.sync(guild=guild)
+        '''
+        
         #Carregar os Codigos
         comandos_path = Path("Comandos")
         if comandos_path.exists() and comandos_path.is_dir():
@@ -44,7 +52,8 @@ class Teste(commands.Bot):
             print("Comandos sincronizados (tree.sync) ✅")
         except Exception as e:
             print("Falha ao sincronizar comandos da tree:", e)
-
+        
+       
 bot = Teste()
 
 #vai checar a cada 1 minuto
