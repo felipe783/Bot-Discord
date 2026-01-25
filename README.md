@@ -20,7 +20,8 @@
 - Neste comando é possivel ver como esta a `historia`
 
 ### /blackjack 
-- É um **group command**
+- É um **group command** 
+
     #### /blackjack iniciar {aposta}
     > O argumento **Aposta** é obrigátorio
     - Inicia um jogo de `BlackJack`

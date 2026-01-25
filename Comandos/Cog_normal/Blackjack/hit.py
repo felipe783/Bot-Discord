@@ -44,12 +44,11 @@ async def hit(interaction: discord.Interaction):
         jogo["pontos"] = jogo.get("pontos") + pontos
         jogo["pontos_dealer"] = jogo.get("pontos_dealer") + dealerP
 
-        while(True):
-            if dealerP < 17: #Dealer é obrigado a comprar quando é menor que 17
-                cartaD = jogo["baralho"].pop()
-                jogo["dealer"].append(cartaD)
-                dealerP = calcular_pontos(jogo["dealer"])
-            break
+        if dealerP < 17: #Dealer é obrigado a comprar quando é menor que 17
+            cartaD = jogo["baralho"].pop()
+            jogo["dealer"].append(cartaD)
+            dealerP = calcular_pontos(jogo["dealer"])
+            
         
         if pontos > 21:
             await interaction.response.send_message(
@@ -65,7 +64,7 @@ async def hit(interaction: discord.Interaction):
             if dealerP > 21: #O dealer tem uma pequena vantagem(A casa sempre ganha😎🔥)
                 await interaction.response.send_message(
                     f"Mesa do {interaction.user.mention}\n"
-                    f"O Dealer estourou💥😭"
+                    f"O Dealer estourou💥😭\n"
                     f"A mesa teve sorte dessa vez...🔥"
                 )
                 del estados_Blackjack.jogos[user_id]

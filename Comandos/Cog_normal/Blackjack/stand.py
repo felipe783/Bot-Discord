@@ -38,71 +38,78 @@ async def double_down(interaction:discord.Interaction):
     
     dealerP = jogo.get("pontos_dealer")
 
-    while(True):
-            if dealerP < 17: #Dealer é obrigado a comprar quando é menor que 17
-                cartaD = jogo["baralho"].pop()
-                jogo["dealer"].append(cartaD)
-                dealerP = calcular_pontos(jogo["dealer"])
-            break
+    if dealerP < 17: #Dealer é obrigado a comprar quando é menor que 17
+        cartaD = jogo["baralho"].pop()
+        jogo["dealer"].append(cartaD)
+        dealerP = calcular_pontos(jogo["dealer"])
+            
     
     pontos = jogo.get("pontos")
     aposta = jogo.get("aposta")
 
-    if pontos == 21 and dealerP == 21: #Empate
-        await interaction.response.send_message(
-                f"Deu empate😤\n" 
-                f"{interaction.user.mention} tenta outra vez, você estava perto de ganhar...😎🔥"
-        )
-    else: 
-        if pontos > 21: #Estourou User
+    try:
+        if pontos == 21 and dealerP == 21: #Empate
             await interaction.response.send_message(
-                f"{interaction.user.mention} é muito ruim no Blackjack😤\n"
-                "Aqui so os fortes sobrevivem🔥\n"
-                "use esse tempo pra ficar menos pior🙏\n"
-                f"🃏 Sua mão:{formatar_mao(jogo['mao'])}\n"
-                f"📊 Pontos: **{pontos}**"
+                    f"Deu empate😤\n" 
+                    f"{interaction.user.mention} tenta outra vez, você estava perto de ganhar...😎🔥"
             )
-            await interaction.user.timeout(timedelta(minutes=aposta), reason="Muito ruim no Blackjack")
-        else:
-            if dealerP > 21:  #Dealer estourou
+        else: 
+            if pontos > 21: #Estourou User
                 await interaction.response.send_message(
-                f"O Dealer estourou💥😭, na mesa do {interaction.user.mention}\n"
-                f"A mesa teve sorte dessa vez...🔥\n"
-                f"🃏A mão dele:{formatar_mao(jogo['dealer'])}\n"
-                f"📊 Pontos: **{dealerP}**"
-            )
+                    f"{interaction.user.mention} é muito ruim no Blackjack😤\n"
+                    "Aqui so os fortes sobrevivem🔥\n"
+                    "use esse tempo pra ficar menos pior🙏\n"
+                    f"🃏 Sua mão:{formatar_mao(jogo['mao'])}\n"
+                    f"📊 Pontos: **{pontos}**"
+                )
+                await interaction.user.timeout(timedelta(minutes=aposta), reason="Muito ruim no Blackjack")
             else:
-                if dealerP == 21: #Dealer 21
+                if dealerP > 21:  #Dealer estourou
                     await interaction.response.send_message(
-                       "O **Delaer** foi melhor que todos💥🔥\n"
-                       "Ele bateu 21😱🔥\n"
-                       f"{interaction.user.mention} use esse tempo pra ficar menos pior😎"
-                    )
-                    await interaction.user.timeout(timedelta(minutes=aposta), reason="Muito ruim no Blackjack")
+                    f"Mesa do {interaction.user.mention}\n"
+                    f"O Dealer estourou💥😭\n"
+                    f"A mesa teve sorte dessa vez...🔥\n"
+                    f"🃏A mão dele:{formatar_mao(jogo['dealer'])}\n"
+                    f"📊 Pontos: **{dealerP}**"
+                )
                 else:
-                    if pontos == 21: #User 21
+                    if dealerP == 21: #Dealer 21
                         await interaction.response.send_message(
-                            f"{interaction.user.mention} teve sorte dessa vez🥶\n"
-                            "Agradeça ao Dealer🙏🙌 por te dar um **21** \n"
-                            f"🃏 Sua mão:{formatar_mao(jogo['mao'])}\n"
-                            f"📊 Pontos: **{pontos}**"
-                        )  
+                        "O Dealer foi melhor que todos💥🔥\n"
+                        "Ele bateu 21 😱🔥\n"
+                        f"{interaction.user.mention} use esse tempo pra ficar menos pior😎\n"
+                        f"🃏A mão dele:{formatar_mao(jogo['dealer'])}\n"
+                        )
+                        await interaction.user.timeout(timedelta(minutes=aposta), reason="Muito ruim no Blackjack")
                     else:
-                        if pontos > dealerP:
+                        if pontos == 21: #User 21
                             await interaction.response.send_message(
-                            f"{interaction.user.mention} teve sorte dessa vez🥶\n"
-                            "Agradeça ao Dealer🙏🙌,por você ter mais pontos que ele \n"
-                            f"🃏 Sua mão:{formatar_mao(jogo['mao'])}\n"
-                            f"📊 Pontos: **{pontos}**"
+                                f"{interaction.user.mention} teve sorte dessa vez🥶\n"
+                                "Agradeça ao Dealer🙏🙌 \n"
+                                "Por te dar um **21** \n"
+                                f"🃏 Sua mão:{formatar_mao(jogo['mao'])}\n"
+                                f"📊 Pontos: **{pontos}**"
                             )  
-                        else: #Dealer ganhou
-                            await interaction.response.send_message(
-                            "O Dealer não mostrou piedade😭\n"
-                            f"{interaction.user.mention} foi amassado,use esse tempo para ficar menos pior🥶\n"
-                            )  
-                            await interaction.user.timeout(timedelta(minutes=aposta), reason="Muito ruim no Blackjack")
-    #Depois de tudo deleta o user_id do cara
-    del estados_Blackjack.jogos[user_id]
+                        else:
+                            if pontos > dealerP:
+                                await interaction.response.send_message(
+                                f"{interaction.user.mention} teve sorte dessa vez🥶\n"
+                                "Agradeça ao Dealer🙏🙌\n"
+                                "Por você ter mais pontos que ele \n"
+                                f"🃏 Sua mão:{formatar_mao(jogo['mao'])}\n"
+                                f"📊 Pontos: **{pontos}**"
+                                )  
+                            else: #Dealer ganhou
+                                
+                                await interaction.response.send_message(
+                                "O Dealer não mostrou piedade😭\n"
+                                f"{interaction.user.mention} foi amassado,use esse tempo para ficar menos pior🥶\n"
+                                f"🃏A mão dele:{formatar_mao(jogo['dealer'])}\n"
+                                )  
+                                await interaction.user.timeout(timedelta(minutes=aposta), reason="Muito ruim no Blackjack")
+    finally:
+        #Depois de tudo deleta o user_id do cara
+        del estados_Blackjack.jogos[user_id]
                 
 async def setup(bot: commands.Bot):
     await bot.add_cog(standcog(bot))
