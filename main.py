@@ -4,16 +4,19 @@ from discord.ext import tasks
 from datetime import datetime
 import pytz
 import os
-import asyncio
 from pathlib import Path
 from dotenv import load_dotenv
 from loader import * 
-from Comandos.Cog_normal.Blackjack import blackjack_group
+import traceback
+import asyncio
+from  Comandos.Cog_normal.Blackjack import blackjack_group
+
 
 # carrega .env
 load_dotenv()
 TOKEN = os.getenv("DISCORD_TOKEN")
 DB = load_db()
+GUILD_ID = 1120406626881515655
 
 class Teste(commands.Bot):
     def __init__(self):
@@ -24,14 +27,18 @@ class Teste(commands.Bot):
         self.db = None
         
     async def setup_hook(self):
-        ''' #Isso daqui limpa o bot inteiro
+        
+        '''
+        #Isso daqui limpa o bot inteiro
         SEU_GUILD_ID = 1120406626881515655
         guild = discord.Object(id=SEU_GUILD_ID)
         bot.tree.clear_commands(guild=guild)
         await bot.tree.sync(guild=guild)
+        await asyncio.sleep(5)
+        await bot.close()
+        print("Comandos foram deletados")
         '''
         
-        #Carregar os Codigos
         comandos_path = Path("Comandos")
         if comandos_path.exists() and comandos_path.is_dir():
             for file in comandos_path.rglob("*.py"):
@@ -49,12 +56,15 @@ class Teste(commands.Bot):
 
         #Tenta sincronizar a Tree
         try:
-            bot.tree.add_command(blackjack_group)
+            if not self.tree.get_command("blackjack"):
+                self.tree.add_command(blackjack_group)
+                print("blackjack_group adicionado à tree")
+            else:
+                print("blackjack já registrado na tree — pulando add_command")
             await self.tree.sync()
             print("Comandos sincronizados (tree.sync) ✅")
         except Exception as e:
             print("Falha ao sincronizar comandos da tree:", e)
-        
        
 bot = Teste()
 

@@ -1,4 +1,5 @@
 import discord
+from discord.ext import commands
 import Estados.estados_Blackjack as estados_Blackjack
 from datetime import timedelta
 from .blackjack_group import blackjack_group
@@ -16,8 +17,12 @@ def calcular_pontos(mao):
 
     return total
 
+class hitcog(commands.Cog):
+    def __init__(self, bot: commands.Bot):
+        self.bot = bot
+
 @blackjack_group.command(name="hit", description="Comprar mais uma carta")
-async def hit(self, interaction: discord.Interaction):
+async def hit(interaction: discord.Interaction):
         user_id = interaction.user.id
 
         if user_id not in estados_Blackjack.jogos: #Garante que ele ta em um Jogo
@@ -45,7 +50,7 @@ async def hit(self, interaction: discord.Interaction):
         
         if pontos > 21:
             await interaction.response.send_message(
-                "Tu é muito ruim no Blackjack😤\n"
+                f"O {interaction.user.mention} é muito ruim  no Blackjack😤\n"
                 "Aqui so os fortes sobrevivem🔥,use esse tempo pra ficar menos pior🙏"
                 f"🃏 Sua mão:{formatar_mao(jogo['mao'])}\n"
                 f"📊 Pontos: **{pontos}**"
@@ -56,14 +61,17 @@ async def hit(self, interaction: discord.Interaction):
         else:
             if dealerP > 21: #O dealer tem uma pequena vantagem(A casa sempre ganha😎🔥)
                 await interaction.response.send_message(
-                    f"O Dealer estourou💥\n"
-                    f"A mesa ganhou,dessa sorte dessa vez...🔥"
+                    f"O Dealer estourou💥😭, na mesa do {interaction.user.mention}💥\n"
+                    f"A mesa teve sorte dessa vez...🔥"
                 )
                 del estados_Blackjack.jogos[user_id]
                 return
             else:
                 await interaction.response.send_message(
+                    f"O jogo do {interaction.user.mention}\n"
                     f"🃏 Nova carta:{formatar_mao(jogo['mao'])}\n"
                     f"📊 Pontos: **{pontos}**"
                 )
-        
+
+async def setup(bot: commands.Bot):
+    await bot.add_cog(hitcog(bot))

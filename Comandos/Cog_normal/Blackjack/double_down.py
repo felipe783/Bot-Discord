@@ -2,6 +2,7 @@ import discord
 import Estados.estados_Blackjack as estados_Blackjack
 from .blackjack_group import blackjack_group
 from datetime import timedelta
+from discord.ext import commands
 
 def formatar_mao(mao):
     return " ".join(f"{c['nome']}{c['naipe']}" for c in mao)
@@ -16,8 +17,12 @@ def calcular_pontos(mao):
 
     return total
 
+class doubledowncog(commands.Cog):
+    def __init__(self, bot: commands.Bot):
+        self.bot = bot
+
 @blackjack_group.command(name="double_down",description="Dobre a aposta,e compre mais uma carta!")
-async def double_down(self, interaction:discord.Interaction):
+async def double_down(interaction:discord.Interaction):
     #Verifica pro cara estar em um Jogo
     user_id = interaction.user.id
     jogo = estados_Blackjack.jogos[user_id]
@@ -47,12 +52,12 @@ async def double_down(self, interaction:discord.Interaction):
     if pontos == 21 and dealerP == 21: #Empate
         await interaction.response.send_message(
                 f"Deu empate😤\n" 
-                f"O {interaction.user.mention} deu azar do **Dealer** ser melhor que ele😎🔥"
+                f"{interaction.user.mention} tenta outra vez, você estava perto de ganhar...😎🔥"
         )
     else: 
         if pontos > 21: #Estourou User
             await interaction.response.send_message(
-                "Tu é muito ruim no Blackjack😤\n"
+                f"{interaction.user.mention} é muito ruim no Blackjack😤\n"
                 "Aqui so os fortes sobrevivem🔥,use esse tempo pra ficar menos pior🙏"
                 f"🃏 Sua mão:{formatar_mao(jogo['mao'])}\n"
                 f"📊 Pontos: **{pontos}**"
@@ -61,21 +66,21 @@ async def double_down(self, interaction:discord.Interaction):
         else:
             if dealerP > 21:  #Dealer estourou
                 await interaction.response.send_message(
-                f"O Dealer estourou💥\n"
-                f"A mesa ganhou,dessa sorte dessa vez...🔥"
+                f"O Dealer estourou💥😭, na mesa do {interaction.user.mention}💥\n"
+                f"A mesa teve sorte dessa vez...🔥"
             )
             else:
                 if dealerP == 21: #Dealer 21
                     await interaction.response.send_message(
                        "O **Delaer** foi melhor que todos💥🔥"
-                       "Ele bateu 21\n"
+                       "Ele bateu 21😱🔥\n"
                        f"{interaction.user.mention} use esse tempo pra ficar menos pior😎"
                     )
                     await interaction.user.timeout(timedelta(minutes=aposta), reason="Muito ruim no Blackjack")
                 else:
                     if pontos == 21: #User 21
                         await interaction.response.send_message(
-                            "Você teve sorte dessa vez🥶\n"
+                            f"{interaction.user.mention} teve sorte dessa vez🥶\n"
                             "Agradeça ao Dealer🙏🙌 por te dar um **21** \n"
                             f"🃏 Sua mão:{formatar_mao(jogo['mao'])}\n"
                             f"📊 Pontos: **{pontos}**"
@@ -83,7 +88,7 @@ async def double_down(self, interaction:discord.Interaction):
                     else:
                         if pontos > dealerP:
                             await interaction.response.send_message(
-                            "Você teve sorte dessa vez🥶\n"
+                            f"{interaction.user.mention} teve sorte dessa vez🥶\n"
                             "Agradeça ao Dealer🙏🙌,por você ter mais pontos que ele \n"
                             f"🃏 Sua mão:{formatar_mao(jogo['mao'])}\n"
                             f"📊 Pontos: **{pontos}**"
@@ -96,3 +101,6 @@ async def double_down(self, interaction:discord.Interaction):
                             await interaction.user.timeout(timedelta(minutes=aposta), reason="Muito ruim no Blackjack")
     #Depois de tudo deleta o user_id do cara
     del estados_Blackjack.jogos[user_id]
+
+async def setup(bot: commands.Bot):
+    await bot.add_cog(doubledowncog(bot))

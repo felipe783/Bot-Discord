@@ -1,4 +1,5 @@
 from .blackjack_group import blackjack_group
+from . import hit,double_down,iniciar
 import pkgutil, importlib
 
 package_name = __name__

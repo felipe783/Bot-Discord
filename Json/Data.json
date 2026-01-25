@@ -1,10 +1,5 @@
 {
-    "historia": [
-        "",
-        "aaaaaaaaaaaaa",
-        "bbb",
-        "ce"
-    ],
+    "historia": [],
     "mod": {
         "id": "string",
         "slug": "string",

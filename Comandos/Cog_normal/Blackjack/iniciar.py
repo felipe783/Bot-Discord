@@ -39,15 +39,18 @@ def criar_baralho():
     return baralho
 
 def tem_blackjack(mao):
-    nome = [c["nome"]for c in mao]
-    valor = [c["valor"]for c in mao]
+    if not isinstance(mao, list) or len(mao) != 2:
+        return False
+    nomes = [c.get("nome") for c in mao]
+    total = calcular_pontos(mao)
+    return "Ás" in nomes and total == 21
     
-    return "Ás" in nome and 10 in valor 
-    
-
+class iniciarcog(commands.Cog):
+    def __init__(self, bot: commands.Bot):
+        self.bot = bot
 
 @blackjack_group.command(name="iniciar",description="Começe a jogar blackjack!")
-async def iniciar(self, interaction:discord.Interaction,aposta : int):
+async def iniciar(interaction:discord.Interaction,aposta : int):
         duracao = aposta
         user_id = interaction.user.id
 
@@ -62,60 +65,58 @@ async def iniciar(self, interaction:discord.Interaction,aposta : int):
             return #aqui garante que o codigo para
         
         baralho = criar_baralho()
-        dealer = [baralho.pop(),baralho.pop()]
-        mao = [baralho.pop(),baralho.pop()]
+        mao_dealer = [baralho.pop(),baralho.pop()]
+        mao_user = [baralho.pop(),baralho.pop()]
         
         estados_Blackjack.jogos[user_id]= { #Cada user tem uma "mesa de blackjack"
             "baralho" : baralho,
-            "mao": mao,
-            "dealer" : dealer,
+            "mao": mao_user,
+            "dealer" : mao_dealer,
             "aposta" : duracao,
             "doubledown" : True
         }
         jogo = estados_Blackjack.jogos[user_id]
 
-        pontos = calcular_pontos(mao)
-        dealer = calcular_pontos(jogo["dealer"])
+        pontos_user = calcular_pontos(mao_user)
 
         dealerBlack = False
-        user = False
+        userBlack = False
 
-        if tem_blackjack(dealer):
+        if tem_blackjack(jogo["dealer"]):
             dealerBlack = True
-        if tem_blackjack(mao):
-            user = True
+        if tem_blackjack(mao_user):
+            userBlack = True
             
-        if user and dealerBlack: #Empatou
+        if userBlack and dealerBlack: #Empatou
             await interaction.response.send_message(
                 f"Deu empate😤\n" 
                 f"O {interaction.user.mention} deu azar do **Dealer** ser melhor que ele😎🔥"
             )
             del estados_Blackjack.jogos[user_id]
         else:
-            if user: #User deu blackjack
+            if userBlack: #User deu blackjack
                 await interaction.response.send_message(
                 f"Os Deuses do Blackjack estavam do seu lado {interaction.user.mention}🙌🙏\n"
                 "Você fez Blackjack com:\n"
-                f"🃏 {formatar_mao(mao)}\n"
+                f"🃏 {formatar_mao(mao_user)}\n"
                 )
                 del estados_Blackjack.jogos[user_id]
             else:
-                if dealer: #Dealer deu blackjack
+                if dealerBlack: #Dealer deu blackjack
                    await interaction.response.send_message(
                         "Se renda ao **Dealer** que fez um blackjack🙏\n"
                         "Ele amassou TODA a mesa🥶 com:\n"
-                        f"🃏 {formatar_mao(mao)}\n"
+                        f"🃏 {formatar_mao(jogo['dealer'])}\n"
                     ) 
                    await interaction.user.timeout(timedelta(minutes=duracao), reason="Muito ruim no Blackjack")
                    del estados_Blackjack.jogos[user_id]
                 else:
                     await interaction.response.send_message(
-                        f"🃏 Suas cartas: {formatar_mao(mao)}\n"
-                        f"📊 Pontos: **{pontos}**\n"
-                        f"🃏Carta do Dealer: {formatar_mao(dealer[:1])}"
+                        f"O jogo de {interaction.user.mention}:\n"
+                        f"🃏 Suas cartas: {formatar_mao(mao_user)}\n"
+                        f"📊 Pontos: **{pontos_user}**\n"
+                        f"🃏Carta do Dealer: {formatar_mao(mao_dealer[:1])}"
                     )
 
-
-            
-        
-
+async def setup(bot: commands.Bot):
+    await bot.add_cog(iniciarcog(bot))
