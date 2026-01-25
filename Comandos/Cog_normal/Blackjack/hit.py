@@ -1,8 +1,7 @@
 import discord
-from discord import app_commands
-from discord.ext import commands
 import Estados.estados_Blackjack as estados_Blackjack
 from datetime import timedelta
+from .blackjack_group import blackjack_group
 
 def formatar_mao(mao):
     return " ".join(f"{c['nome']}{c['naipe']}" for c in mao)
@@ -17,12 +16,8 @@ def calcular_pontos(mao):
 
     return total
 
-class hit(commands.Cog):
-    def __init__(self, bot):
-        self.bot = bot
-
-    @app_commands.command(name="hit", description="Comprar mais uma carta")
-    async def hit(self, interaction: discord.Interaction):
+@blackjack_group.command(name="hit", description="Comprar mais uma carta")
+async def hit(self, interaction: discord.Interaction):
         user_id = interaction.user.id
 
         if user_id not in estados_Blackjack.jogos: #Garante que ele ta em um Jogo
@@ -30,8 +25,8 @@ class hit(commands.Cog):
             return
 
         jogo = estados_Blackjack.jogos[user_id]
-        jogo["doubledown"] = False #Ele não pode dar DoubleDown
-        duracao = jogo.get("duracao")
+        jogo["doubledown"] = False  #Ele não pode dar DoubleDown
+        duracao = jogo.get("aposta")
 
         carta = jogo["baralho"].pop()
         jogo["mao"].append(carta)
@@ -41,28 +36,34 @@ class hit(commands.Cog):
         pontos = calcular_pontos(jogo["mao"])
         dealerP = calcular_pontos(jogo["dealer"])
 
-        if dealerP < 17: #Dealer é obrigado a comprar quando é menor que 17
-            dealerP = calcular_pontos(jogo["dealer"])
+        while(True):
+            if dealerP < 17: #Dealer é obrigado a comprar quando é menor que 17
+                cartaD = jogo["baralho"].pop()
+                jogo["dealer"].append(cartaD)
+                dealerP = calcular_pontos(jogo["dealer"])
+            break
+        
+        if pontos > 21:
+            await interaction.response.send_message(
+                "Tu é muito ruim no Blackjack😤\n"
+                "Aqui so os fortes sobrevivem🔥,use esse tempo pra ficar menos pior🙏"
+                f"🃏 Sua mão:{formatar_mao(jogo['mao'])}\n"
+                f"📊 Pontos: **{pontos}**"
+            )
+            await interaction.user.timeout(timedelta(minutes=duracao), reason="Muito ruim no Blackjack")
+            del estados_Blackjack.jogos[user_id]
+            return
         else:
-            if pontos > 21:
-                await interaction.response.send_message(
-                    f"💥 Estourou!\nCartas: {formatar_mao(jogo['mao'])}\n"
-                    f"Pontos: **{pontos}**"
-                )
-                await interaction.user.timeout(timedelta(minutes=duracao), reason="Muito ruim no Blackjack")
-                del estados_Blackjack.jogos[user_id]
-                return
             if dealerP > 21: #O dealer tem uma pequena vantagem(A casa sempre ganha😎🔥)
                 await interaction.response.send_message(
                     f"O Dealer estourou💥\n"
-                    f"A mesa ganhou,você teve sorte dessa vez...🔥"
+                    f"A mesa ganhou,dessa sorte dessa vez...🔥"
                 )
                 del estados_Blackjack.jogos[user_id]
+                return
             else:
                 await interaction.response.send_message(
                     f"🃏 Nova carta:{formatar_mao(jogo['mao'])}\n"
                     f"📊 Pontos: **{pontos}**"
                 )
         
-async def setup(bot):
-    await bot.add_cog(hit(bot))

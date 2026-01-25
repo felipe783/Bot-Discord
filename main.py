@@ -8,6 +8,7 @@ import asyncio
 from pathlib import Path
 from dotenv import load_dotenv
 from loader import * 
+from Comandos.Cog_normal.Blackjack import blackjack_group
 
 # carrega .env
 load_dotenv()
@@ -48,6 +49,7 @@ class Teste(commands.Bot):
 
         #Tenta sincronizar a Tree
         try:
+            bot.tree.add_command(blackjack_group)
             await self.tree.sync()
             print("Comandos sincronizados (tree.sync) ✅")
         except Exception as e:

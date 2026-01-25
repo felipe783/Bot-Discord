@@ -3,6 +3,8 @@ from discord import app_commands
 from discord.ext import commands
 import random
 import Estados.estados_Blackjack as estados_Blackjack
+from .blackjack_group import blackjack_group
+from datetime import timedelta
 
 def formatar_mao(mao):
     return " ".join(f"{c['nome']}{c['naipe']}" for c in mao)
@@ -42,12 +44,10 @@ def tem_blackjack(mao):
     
     return "Ás" in nome and 10 in valor 
     
-class blackjack(commands.Cog):
-    def __init__(self, bot: commands.Bot):
-        self.bot = bot
 
-    @app_commands.command(name="blackjack",description="Começe a jogar blackjack!")
-    async def blackjack(self, interaction:discord.Interaction,aposta : int):
+
+@blackjack_group.command(name="iniciar",description="Começe a jogar blackjack!")
+async def iniciar(self, interaction:discord.Interaction,aposta : int):
         duracao = aposta
         user_id = interaction.user.id
 
@@ -69,26 +69,53 @@ class blackjack(commands.Cog):
             "baralho" : baralho,
             "mao": mao,
             "dealer" : dealer,
-            "duracao" : duracao,
+            "aposta" : duracao,
             "doubledown" : True
         }
+        jogo = estados_Blackjack.jogos[user_id]
 
         pontos = calcular_pontos(mao)
-        if tem_blackjack(mao):
-            await interaction.response.send_message(
-                f"Os Deus do Blackjack estavam do seu lado {user_id}🙌🙏\n"
-                "Você fez Blackjack com:\n"
-                f"🃏 Suas cartas:{formatar_mao(mao)}\n"
-                f"📊 Pontos: **{pontos}**"
-            )
-            return #Ele ganhou o blackjack
-        else:
-            await interaction.response.send_message(
-                f"🃏 Suas cartas: {formatar_mao(mao)}\n"
-                f"📊 Pontos: **{pontos}**\n"
-                f"🃏Cartas do Dealer: {formatar_mao(dealer[:1])}"
-            )
+        dealer = calcular_pontos(jogo["dealer"])
 
-async def setup(bot : commands.Bot):
-    await bot.add_cog(blackjack(bot))
+        dealerBlack = False
+        user = False
+
+        if tem_blackjack(dealer):
+            dealerBlack = True
+        if tem_blackjack(mao):
+            user = True
+            
+        if user and dealerBlack: #Empatou
+            await interaction.response.send_message(
+                f"Deu empate😤\n" 
+                f"O {interaction.user.mention} deu azar do **Dealer** ser melhor que ele😎🔥"
+            )
+            del estados_Blackjack.jogos[user_id]
+        else:
+            if user: #User deu blackjack
+                await interaction.response.send_message(
+                f"Os Deuses do Blackjack estavam do seu lado {interaction.user.mention}🙌🙏\n"
+                "Você fez Blackjack com:\n"
+                f"🃏 {formatar_mao(mao)}\n"
+                )
+                del estados_Blackjack.jogos[user_id]
+            else:
+                if dealer: #Dealer deu blackjack
+                   await interaction.response.send_message(
+                        "Se renda ao **Dealer** que fez um blackjack🙏\n"
+                        "Ele amassou TODA a mesa🥶 com:\n"
+                        f"🃏 {formatar_mao(mao)}\n"
+                    ) 
+                   await interaction.user.timeout(timedelta(minutes=duracao), reason="Muito ruim no Blackjack")
+                   del estados_Blackjack.jogos[user_id]
+                else:
+                    await interaction.response.send_message(
+                        f"🃏 Suas cartas: {formatar_mao(mao)}\n"
+                        f"📊 Pontos: **{pontos}**\n"
+                        f"🃏Carta do Dealer: {formatar_mao(dealer[:1])}"
+                    )
+
+
+            
         
+
