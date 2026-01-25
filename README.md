@@ -21,16 +21,17 @@
 
 ### /blackjack 
 > É um group command
-#### /blackjack iniciar {aposta}
-> O argumento **Aposta** é obrigátorio
-- Inicia o jogo de `BLackJack`
 
-#### /blackjack hit
-- O jogador pede mais uma carta para tentar chegar mais perto de 21.
-- Pode repetir o quanto quiser, desde que não estoure.
+    #### /blackjack iniciar {aposta}
+    > O argumento **Aposta** é obrigátorio
+    - Inicia o jogo de `BLackJack`
 
-#### /blackjack double_down
-- O jogador dobra a aposta, recebe apenas uma carta adicional,e é obrigado a dar stand em seguida.
+    #### /blackjack hit
+    - O jogador pede mais uma carta para tentar chegar mais perto de 21.
+    - Pode repetir o quanto quiser, desde que não estoure.
+
+    #### /blackjack double_down
+    - O jogador dobra a aposta, recebe apenas uma carta adicional,e é obrigado a dar stand em seguida.
 
 ### /blackjack stand
 - O jogador para de comprar cartas e mantém a pontuação atual.

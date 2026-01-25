@@ -36,7 +36,7 @@ async def double_down(interaction:discord.Interaction):
             "Double só pode antes de dar HIT 🤓🔥",ephemeral=True
         )
         return
-    jogo["stand"] = False
+    
     aposta = jogo.get("aposta")
     aposta = aposta * 2 #O Doubledown dobra o valor
 
