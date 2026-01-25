@@ -73,11 +73,18 @@ async def iniciar(interaction:discord.Interaction,aposta : int):
             "mao": mao_user,
             "dealer" : mao_dealer,
             "aposta" : duracao,
-            "doubledown" : True
+            "doubledown" : True,
+            "stand" : True,
+            "pontos" : 0,
+            "pontos_dealer": 0
         }
         jogo = estados_Blackjack.jogos[user_id]
 
         pontos_user = calcular_pontos(mao_user)
+        pontos_dealer = calcular_pontos(mao_dealer)
+
+        jogo["pontos"] = pontos_user
+        jogo["pontos_dealer"] = pontos_dealer
 
         dealerBlack = False
         userBlack = False
@@ -104,8 +111,9 @@ async def iniciar(interaction:discord.Interaction,aposta : int):
             else:
                 if dealerBlack: #Dealer deu blackjack
                    await interaction.response.send_message(
-                        "Se renda ao **Dealer** que fez um blackjack🙏\n"
-                        "Ele amassou TODA a mesa🥶 com:\n"
+                        "Se renda ao **Dealer** ele fez um blackjack🙏\n"
+                        f"Ele amassou  o {interaction.user.mention}🥶 \n"
+                        "com um **BlackJack**🔥:\n"
                         f"🃏 {formatar_mao(jogo['dealer'])}\n"
                     ) 
                    await interaction.user.timeout(timedelta(minutes=duracao), reason="Muito ruim no Blackjack")
