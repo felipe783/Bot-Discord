@@ -20,21 +20,21 @@
 - Neste comando é possivel ver como esta a `historia`
 
 ### /blackjack 
-> É um group command
-
+- É um **group command**
     #### /blackjack iniciar {aposta}
     > O argumento **Aposta** é obrigátorio
-    - Inicia o jogo de `BLackJack`
-
-    #### /blackjack hit
-    - O jogador pede mais uma carta para tentar chegar mais perto de 21.
-    - Pode repetir o quanto quiser, desde que não estoure.
+    - Inicia um jogo de `BlackJack`
 
     #### /blackjack double_down
-    - O jogador dobra a aposta, recebe apenas uma carta adicional,e é obrigado a dar stand em seguida.
+    - Dobra a `aposta`,compra mais uma `carta`
+    - E entra em stand automatico 
+    
+    #### /blackjack stand
+    - `Para de comprar cartas` e ve se tem a maior pontuação sem estourar
 
-### /blackjack stand
-- O jogador para de comprar cartas e mantém a pontuação atual.
+    #### /blackjack hit
+    - O jogador compra `mais uma carta` 
+    - Pode `repetir` o `quanto quiser`,desde que `não estoure`
 
 ### /buscar_mod
 >[Documentação da API](https://docs.modrinth.com/api/)
