@@ -44,10 +44,13 @@ async def hit(interaction: discord.Interaction):
         jogo["pontos"] = pontos
         jogo["pontos_dealer"] =  dealerP
 
-        if dealerP < 17: #Dealer é obrigado a comprar quando é menor que 17
-            cartaD = jogo["baralho"].pop()
-            jogo["dealer"].append(cartaD)
-            dealerP = calcular_pontos(jogo["dealer"])
+        while(True):
+            if dealerP < 17: #Dealer é obrigado a comprar quando é menor que 17
+                cartaD = jogo["baralho"].pop()
+                jogo["dealer"].append(cartaD)
+                dealerP = calcular_pontos(jogo["dealer"])
+            else:
+                break
             
         
         if pontos > 21:

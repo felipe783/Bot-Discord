@@ -110,6 +110,7 @@ async def iniciar(interaction:discord.Interaction,aposta : int):
                 del estados_Blackjack.jogos[user_id]
             else:
                 if dealerBlack: #Dealer deu blackjack
+                   del estados_Blackjack.jogos[user_id]
                    await interaction.response.send_message(
                         "Se renda ao **Dealer** ele fez um blackjack🙏\n"
                         f"Ele amassou  o {interaction.user.mention}🥶 \n"
@@ -117,7 +118,6 @@ async def iniciar(interaction:discord.Interaction,aposta : int):
                         f"🃏 {formatar_mao(jogo['dealer'])}\n"
                     ) 
                    await interaction.user.timeout(timedelta(minutes=duracao), reason="Muito ruim no Blackjack")
-                   del estados_Blackjack.jogos[user_id]
                 else:
                     await interaction.response.send_message(
                         f"O jogo de {interaction.user.mention}:\n"

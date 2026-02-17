@@ -38,10 +38,13 @@ async def double_down(interaction:discord.Interaction):
     
     dealerP = jogo.get("pontos_dealer")
 
-    if dealerP < 17: #Dealer é obrigado a comprar quando é menor que 17
-        cartaD = jogo["baralho"].pop()
-        jogo["dealer"].append(cartaD)
-        dealerP = calcular_pontos(jogo["dealer"])
+    while(True):
+        if dealerP < 17: #Dealer é obrigado a comprar quando é menor que 17
+            cartaD = jogo["baralho"].pop()
+            jogo["dealer"].append(cartaD)
+            dealerP = calcular_pontos(jogo["dealer"])
+        else:
+            break
             
     
     pontos = jogo.get("pontos")
