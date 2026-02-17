@@ -1,2 +1,5 @@
 discord.py
 nest_asyncio
+requests
+pytz
+dotenv
