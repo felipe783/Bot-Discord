@@ -1,4 +1,5 @@
 # Bot Teste🔥
+- O bot está hospedado no meu Ubuntu Server 24.04, rodando dentro de um container Docker.
 
 ## Comandos Normais:
 > ***Comandos onde qualquer um pode usar***
