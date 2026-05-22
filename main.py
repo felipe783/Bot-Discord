@@ -29,7 +29,7 @@ class Teste(commands.Bot):
         
         '''
         #Isso daqui limpa o bot inteiro
-        SEU_GUILD_ID = 1120406626881515655
+        SEU_GUILD_ID = 
         guild = discord.Object(id=SEU_GUILD_ID)
         bot.tree.clear_commands(guild=guild)
         await bot.tree.sync(guild=guild)
