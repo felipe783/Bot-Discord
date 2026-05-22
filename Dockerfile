@@ -13,8 +13,5 @@ RUN pip install --no-cache-dir -r requirements.txt
 # Copia o resto do bot pro container
 COPY . .
 
-# Expõe porta se precisar (opcional)
-# EXPOSE 8080
-
 # Comando pra rodar o bot
 CMD ["python", "main.py"]

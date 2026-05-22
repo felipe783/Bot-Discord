@@ -45,10 +45,6 @@ def tem_blackjack(mao):
     total = calcular_pontos(mao)
     return "Ás" in nomes and total == 21
     
-class iniciarcog(commands.Cog):
-    def __init__(self, bot: commands.Bot):
-        self.bot = bot
-
 @blackjack_group.command(name="iniciar",description="Começe a jogar blackjack!")
 async def iniciar(interaction:discord.Interaction,aposta : int):
         duracao = aposta
@@ -126,5 +122,5 @@ async def iniciar(interaction:discord.Interaction,aposta : int):
                         f"🃏Carta do Dealer: {formatar_mao(mao_dealer[:1])}"
                     )
 
-async def setup(bot: commands.Bot):
-    await bot.add_cog(iniciarcog(bot))
+async def setup(bot):
+    pass

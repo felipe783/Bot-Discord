@@ -17,10 +17,6 @@ def calcular_pontos(mao):
 
     return total
 
-class hitcog(commands.Cog):
-    def __init__(self, bot: commands.Bot):
-        self.bot = bot
-
 @blackjack_group.command(name="hit", description="Comprar mais uma carta")
 async def hit(interaction: discord.Interaction):
         user_id = interaction.user.id
@@ -79,5 +75,5 @@ async def hit(interaction: discord.Interaction):
                     f"📊 Pontos: **{pontos}**"
                 )
 
-async def setup(bot: commands.Bot):
-    await bot.add_cog(hitcog(bot))
+async def setup(bot):
+    pass

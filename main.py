@@ -9,8 +9,7 @@ from dotenv import load_dotenv
 from loader import * 
 import traceback
 import asyncio
-from  Comandos.Cog_normal.Blackjack import blackjack_group
-
+from Comandos.load_groups import load_all_groups
 
 # carrega .env
 load_dotenv()
@@ -47,25 +46,27 @@ class Teste(commands.Bot):
                 relative_path = file.relative_to(comandos_path)
                 module = f"Comandos.{relative_path.with_suffix('').as_posix().replace('/', '.')}"
                 try:
-                    await self.load_extension(module)
-                    print(f"Carregado cog: {module}")
+                    if module in self.extensions:
+                        await self.reload_extension(module)
+                        print(f"Recarregado cog: {module}")
+                    else:
+                        await self.load_extension(module)
+                        print(f"Carregado cog: {module}")
                 except Exception as e:
                     print(f"Falha ao carregar {module}: {e}")
         else:
             print("Pasta 'Comandos' não encontrada. Verifique a estrutura do projeto.")
 
-        #Tenta sincronizar a Tree
+        # Carrega todos os groups automaticamente
+        await load_all_groups(self)
+
+        # Tenta sincronizar a Tree
         try:
-            if not self.tree.get_command("blackjack"):
-                self.tree.add_command(blackjack_group)
-                print("blackjack_group adicionado à tree")
-            else:
-                print("blackjack já registrado na tree — pulando add_command")
             await self.tree.sync()
             print("Comandos sincronizados (tree.sync) ✅")
         except Exception as e:
             print("Falha ao sincronizar comandos da tree:", e)
-       
+                        
 bot = Teste()
 
 #vai checar a cada 1 minuto
