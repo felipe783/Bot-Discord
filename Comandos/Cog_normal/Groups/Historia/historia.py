@@ -4,7 +4,7 @@ import discord
 from .historia_group import historia_group
 
 @historia_group.command(name="escrever",description="Escreva uma Historia!")
-async def historia(
+async def escrever_historia(
     interaction: discord.Interaction,
     texto: Optional[str] = None
 ):

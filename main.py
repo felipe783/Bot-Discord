@@ -9,13 +9,13 @@ from dotenv import load_dotenv
 from loader import * 
 import traceback
 import asyncio
-from Comandos.load_groups import load_all_groups
+from Comandos.__load_groups import load_all_groups
 
 # carrega .env
 load_dotenv()
 TOKEN = os.getenv("DISCORD_TOKEN")
 DB = load_db()
-GUILD_ID = 1120406626881515655
+GUILD_ID = os.getenv("DISCORD_GUILD_ID")
 
 class Teste(commands.Bot):
     def __init__(self):
@@ -29,8 +29,7 @@ class Teste(commands.Bot):
         
         '''
         #Isso daqui limpa o bot inteiro
-        SEU_GUILD_ID = 
-        guild = discord.Object(id=SEU_GUILD_ID)
+        guild = discord.Object(id=GUILD_ID)
         bot.tree.clear_commands(guild=guild)
         await bot.tree.sync(guild=guild)
         await asyncio.sleep(5)
@@ -66,7 +65,7 @@ class Teste(commands.Bot):
             print("Comandos sincronizados (tree.sync) ✅")
         except Exception as e:
             print("Falha ao sincronizar comandos da tree:", e)
-                        
+                    
 bot = Teste()
 
 #vai checar a cada 1 minuto
