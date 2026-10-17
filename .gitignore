@@ -40,3 +40,5 @@ Thumbs.db
 # ===== dotenv (tokens, segredos) =====
 .env
 .env.*
+
+.git
