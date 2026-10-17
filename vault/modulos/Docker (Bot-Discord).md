@@ -22,6 +22,6 @@ docker logs -f bot-discord
 - O bot só faz conexões de saída (gateway e API do Discord, Modrinth): **nenhuma porta** precisa ser publicada.
 
 > [!warning] Segurança e dados
-> - **Não há `.dockerignore`**: o `COPY . .` leva o `.env` (com o token), o `.git` e o `__pycache__` para a imagem. Crie um `.dockerignore` e passe o token com `--env-file .env`.
+> - **Não há `.dockerignore`**: o `COPY . .` leva o `.env` (com o token), o `.git` e o `__pycache__` para a imagem. Crie um `.dockerignore`; o comando acima já passa o token por `--env-file .env`, então ele não precisa estar na imagem.
 > - `Json/Data.json` fica dentro do container: sem volume (`-v ./Json:/app/Json`), a história se perde ao recriar.
 > - Não há `docker-compose.yml`, *healthcheck* nem script de deploy no repositório.
