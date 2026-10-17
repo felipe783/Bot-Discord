@@ -1,59 +1,107 @@
 # Bot Teste🔥
+
+Bot de Discord em **Python (discord.py)** com slash commands: uma **história colaborativa** que o servidor escreve junto e que é publicada todo dia ao meio-dia, um **Blackjack** em que a aposta é o tempo de *timeout* de quem perde, uma **busca de mods** no Modrinth e comandos de administração.
+
 - O bot está hospedado no meu Ubuntu Server 24.04, rodando dentro de um container Docker.
 
-## Comandos Normais:
-> ***Comandos onde qualquer um pode usar***
+## Comandos Normais
 
-### /ajuda
-- Neste comando ira mostrar a `lista de comandos` do bot e uma pequena explicação sobre eles
+> ***Comandos que qualquer um pode usar***
 
-### /ping
-- O bot vai `responder` quem chamou com um `pong`
+| Comando | O que faz |
+|---|---|
+| `/ajuda` | Mostra a lista de comandos (só para quem chamou) |
+| `/ping` | O bot responde com um `pong` |
+| `/busca_mod [texto]` | Busca o mod na [API do Modrinth](https://docs.modrinth.com/api/) e mostra descrição, autor, downloads e link do primeiro resultado |
 
-### /historia {texto}
-> O argumento texto é obrigátorio
+### /historia
 
-- Neste comando sera possivel `juntar` as `frases(texto)` escritas pelos membros do servidor e formar uma `historia`
-- E a cada dia as `historias` são zeradas e é enviado uma `copia` inteira da `ultima historia` no `canal historia`
+> É um **group command**
 
-### /ver historia
+| Comando | O que faz |
+|---|---|
+| `/historia escrever [texto]` | Junta a sua frase à história do servidor e mostra como ela ficou |
+| `/historia ver_historia` | Mostra a história atual (só para quem chamou) |
 
-- Neste comando é possivel ver como esta a `historia`
+Todo dia às **12:00 (horário de Brasília)** a história inteira é enviada no canal `historias` e zerada.
 
-### /blackjack 
-- É um **group command** 
+### /blackjack
 
-    #### /blackjack iniciar {aposta}
-    > O argumento **Aposta** é obrigátorio
-    - Inicia um jogo de `BlackJack`
+> É um **group command**. A aposta é em **minutos de timeout**: se perder, você fica de castigo esse tempo 😎
 
-    #### /blackjack double_down
-    - Dobra a `aposta`,compra mais uma `carta`
-    - E entra em stand automatico 
-    
-    #### /blackjack stand
-    - `Para de comprar cartas` e ve se tem a maior pontuação sem estourar
+| Comando | O que faz |
+|---|---|
+| `/blackjack iniciar <aposta>` | Começa um jogo de Blackjack contra o dealer (aposta obrigatória, maior que 0) |
+| `/blackjack hit` | Compra mais uma carta; pode repetir enquanto não estourar |
+| `/blackjack stand` | Para de comprar; o dealer compra até 17 e quem tiver mais pontos sem estourar ganha |
+| `/blackjack double_down` | Dobra a aposta, compra mais uma carta e encerra a jogada (só antes do primeiro `hit`) |
 
-    #### /blackjack hit
-    - O jogador compra `mais uma carta` 
-    - Pode `repetir` o `quanto quiser`,desde que `não estoure`
+## Comandos ADM
 
-### /buscar_mod
->[Documentação da API](https://docs.modrinth.com/api/)
-- Comando onde usa a API `Labrinth` criada pela equipe do `Modrinth`
-- Neste comando o usuário escreve o nome de um `mod` e a API faz a busca e forneece as informações:`descrição,donwloads,autor`
+> ***Só para administradores***. O `/apagar` ainda exige o cargo `ADM` do servidor.
 
-## Comandos ADM:
-> ***São comandos onde apenas pessoas com determinado cargo podem usar***,que no caso é o cargo `ADM`
+| Comando | O que faz |
+|---|---|
+| `/apagar` | Publica e zera a história antes do horário |
+| `/reload` | Recarrega os comandos sem reiniciar o bot |
 
-### /apagar
+## Canais criados pelo bot
 
-- Neste comando é possivel apagar a historia antes do tempo de reset delas *(24 horas)*
+Ao iniciar, o bot cria os canais de que precisa se eles ainda não existirem:
+- `historias`: só o bot escreve; o ID fica salvo em `Json/Data.json`;
+- `comandos-bot-teste`: visível só para o cargo ADM.
 
-### /reload
+## Configuração local
 
-- Neste comando é possivel dar `Reload` em todos os comandos
+Requisitos: Python 3.12 e um bot criado no [Discord Developer Portal](https://discord.com/developers/applications) com:
+- **Message Content Intent** ligado (*Bot → Privileged Gateway Intents*);
+- permissões **Send Messages**, **Manage Channels** e **Moderate Members** (para o timeout do Blackjack);
+- convite com os escopos `bot` e `applications.commands`.
 
-## Cogs de Criar canais:
+```powershell
+python -m venv .venv
+.\.venv\Scripts\Activate.ps1
+pip install -r requirements.txt
+```
 
-- Nesta pasta são criados os canais onde o bot ira necessitar para funcionar corretamento como o `canal História`
+Crie um arquivo `.env` na raiz (ele está no `.gitignore` e **nunca** deve ser commitado):
+
+```dotenv
+DISCORD_TOKEN=cole_aqui_o_token_do_bot
+```
+
+> O ID do servidor, o cargo ADM e os canais estão **fixos no código** (`main.py`, `Comandos/Cog_ADM/`, `Comandos/Cogs_channel/`). Para usar o bot em outro servidor, troque esses IDs. A variável `DISCORD_GUILD_ID` do `.env` ainda não é lida pelo código.
+
+## Como rodar
+
+Rode sempre **a partir da raiz** do projeto, porque `Comandos/` e `Json/Data.json` são caminhos relativos:
+
+```powershell
+python main.py
+```
+
+No console aparecem os cogs carregados e `Comandos sincronizados (tree.sync) ✅`. Comandos novos podem levar alguns minutos para aparecer no Discord.
+
+### Docker
+
+```bash
+docker build -t bot-discord .
+docker run -d --name bot-discord --restart unless-stopped bot-discord
+docker logs -f bot-discord
+```
+
+> ⚠️ Não há `.dockerignore`: o `COPY . .` leva o `.env` com o token para dentro da imagem. Não publique essa imagem. O `Json/Data.json` também fica dentro do container e se perde ao recriá-lo.
+
+## Solução de problemas
+
+| Sintoma | Causa provável |
+|---|---|
+| `Improper token has been passed` | `DISCORD_TOKEN` vazio ou errado no `.env` |
+| `PrivilegedIntentsRequired` | Message Content Intent desligado no Developer Portal |
+| Comandos não aparecem | Sincronização global ainda propagando, ou bot convidado sem `applications.commands` |
+| `Pasta 'Comandos' não encontrada` / `Json/Data.json` não achado | Bot iniciado fora da raiz do projeto |
+| Blackjack não aplica o timeout | Falta a permissão *Moderate Members*, ou o jogador é administrador/dono |
+
+## 📚 Documentação
+
+A documentação completa da arquitetura está em [`vault/_Bot-Discord.md`](vault/_Bot-Discord.md). Consulte esse arquivo como ponto de entrada para os comandos, o carregamento de cogs e groups, a persistência, os problemas conhecidos e os próximos passos.
