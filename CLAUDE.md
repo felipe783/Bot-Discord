@@ -22,6 +22,8 @@ O índice abaixo é carregado em toda sessão. As notas detalhadas ficam em `vau
 | Criação de canais | `vault/modulos/Canais/Criação de Canais.md` |
 | Dockerfile e riscos | `vault/modulos/Docker (Bot-Discord).md` |
 
+Conceitos transversais (segredos, Docker, configuração, persistência em JSON…), com aprendizados deste e de outros projetos: `E:/Downloads/!Faculdade/Contexto Projetos/Conhecimento/_Conhecimento.md`. Leia sob demanda, quando a tarefa tocar o assunto.
+
 ## Mapa do código
 
 - `main.py`: classe `Teste(commands.Bot)`, `setup_hook` (carrega cogs e groups, `tree.sync()`), tarefa `Historias_diaria` e `on_ready`.
