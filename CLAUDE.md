@@ -52,7 +52,7 @@ docker run -d --name bot-discord --env-file .env --restart unless-stopped bot-di
 docker logs -f bot-discord
 ```
 
-Não há testes automatizados. Em 2026-10-17 só foi verificado que os arquivos `.py` compilam.
+Não há testes automatizados; o que já foi verificado, e quando, está no "Como rodar" do índice.
 
 ## Regras deste projeto
 
@@ -68,14 +68,7 @@ Não há testes automatizados. Em 2026-10-17 só foi verificado que os arquivos 
 
 ## Armadilhas conhecidas
 
-- `/reload` chama `send_message` dentro do laço (lança `InteractionResponded` a partir do 2º módulo) e não recarrega os groups nem faz `tree.sync()`.
-- `on_ready` chama `Historias_diaria.start()` sem `is_running()`: numa reconexão, lança `RuntimeError`.
-- A tarefa diária só age se o horário for **exatamente** 12:00 na checagem.
-- `load_db()` devolve `[]` sem o arquivo, mas o código espera um `dict`.
-- `interaction.user.timeout(...)` falha (`Forbidden`) em admins/dono ou sem *Moderate Members*, depois da resposta já enviada.
-- `/busca_mod` usa `requests` (bloqueante, sem `timeout`) dentro de uma corrotina.
-- No Blackjack, o `hit` dá carta ao dealer a cada compra e o `double_down` não faz o dealer comprar até 17; `formatar_mao`/`calcular_pontos` estão duplicados em 4 arquivos.
-- `nest_asyncio` está no `requirements.txt` mas não é usado.
+Estão em **Problemas conhecidos** do índice importado acima (`vault/_Bot-Discord.md`), que é a única lista mantida.
 
 ## Manter a documentação
 
