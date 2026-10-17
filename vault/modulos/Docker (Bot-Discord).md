@@ -14,7 +14,7 @@ CMD ["python", "main.py"]
 
 ````bash
 docker build -t bot-discord .
-docker run -d --name bot-discord --restart unless-stopped bot-discord
+docker run -d --name bot-discord --env-file .env --restart unless-stopped bot-discord
 docker logs -f bot-discord
 ````
 

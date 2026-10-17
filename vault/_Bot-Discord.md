@@ -50,7 +50,7 @@ python main.py
 ```bash
 # Docker
 docker build -t bot-discord .
-docker run -d --name bot-discord --restart unless-stopped bot-discord
+docker run -d --name bot-discord --env-file .env --restart unless-stopped bot-discord
 ```
 
 > Os caminhos (`Comandos/`, `Json/Data.json`) são **relativos ao diretório atual**: rode `main.py` a partir da raiz.
