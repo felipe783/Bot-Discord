@@ -20,7 +20,7 @@ Bot-Discord/
 	|  |--📁 Cogs_channel
 	|  |  |--canal_comandos.py    ← cria #comandos-bot-teste
 	|  |  |--canal_historia.py    ← cria #historias
-	|  |--load_groups.py          ← adiciona os command groups à árvore
+	|  |--__load_groups.py        ← adiciona os command groups à árvore (o `_` evita que vire extensão)
 	📁 Estados
 	|  |--estados_Blackjack.py    ← jogos = {} (estado em memória)
 	📁 Json
@@ -35,7 +35,7 @@ Bot-Discord/
 ```
 ## Pastas
 
-- `main.py`, `loader.py`, `Comandos/load_groups.py`: ver [[!Modulo Core (Bot-Discord)]].
+- `main.py`, `loader.py`, `Comandos/__load_groups.py`: ver [[!Modulo Core (Bot-Discord)]].
 - `Comandos/Cog_normal/*.py`, `Comandos/Cog_ADM/`: ver [[!Modulo Comandos (Bot-Discord)]].
 - `Comandos/Cog_normal/Groups/Historia/`: ver [[!Modulo História (Bot-Discord)]].
 - `Comandos/Cog_normal/Groups/Blackjack/`, `Estados/`: ver [[!Modulo Blackjack]].

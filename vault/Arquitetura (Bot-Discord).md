@@ -7,7 +7,7 @@ sequenceDiagram
     participant M as main.py
     participant B as Teste (commands.Bot)
     participant C as Comandos/**/*.py
-    participant G as load_groups.py
+    participant G as __load_groups.py
     participant D as Discord
     M->>M: load_dotenv() + DISCORD_TOKEN + load_db()
     M->>B: bot.run(TOKEN)
@@ -25,7 +25,7 @@ sequenceDiagram
 ```mermaid
 flowchart TD
     MAIN[main.py<br/>Teste + Historias_diaria] --> CL[Cogs: Cog_normal, Cog_ADM, Cogs_channel]
-    MAIN --> LG[load_groups.py]
+    MAIN --> LG[__load_groups.py]
     LG --> BJ[Groups/Blackjack<br/>iniciar, hit, stand, double_down]
     LG --> HI[Groups/Historia<br/>escrever, ver_historia]
     BJ --> EST[(Estados/estados_Blackjack.jogos<br/>em memória)]

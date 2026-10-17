@@ -1,6 +1,6 @@
 # Sobre os Arquivos
 
-`main.py` (`setup_hook`) e `Comandos/load_groups.py` são os **Responsáveis por Registrar os Comandos** sem lista manual.
+`main.py` (`setup_hook`) e `Comandos/__load_groups.py` são os **Responsáveis por Registrar os Comandos** sem lista manual.
 # Funcionalidades
 
 ## Cogs
@@ -14,7 +14,7 @@ for file in Path("Comandos").rglob("*.py"):
 ````
 
 - Todo `.py` vira extensão; cada uma precisa de `async def setup(bot)`. Os arquivos dos groups têm um `setup` vazio só para isso.
-- `load_groups.py` não tem `setup`, então sua carga como extensão falha e é apenas impressa no console. É inofensivo.
+- `__load_groups.py` começa com `_`, então é pulado pelo laço e não é carregado como extensão (antes do commit `72c1e09` ele se chamava `load_groups.py` e gerava um erro inofensivo no console).
 
 ## Groups
 

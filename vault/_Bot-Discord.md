@@ -31,7 +31,7 @@ Bot de Discord em **Python (discord.py)** para um servidor específico, com **sl
 | Blackjack: `/blackjack iniciar | hit | stand | double_down` com *timeout* como aposta ([[BD-RF 05]]) | Implementado |
 | Comandos ADM `/apagar` e `/reload` ([[BD-RF 06]]) | Implementado; `/reload` tem defeitos (ver abaixo) |
 | Criação dos canais `historias` e `comandos-bot-teste` | Implementado |
-| Configuração por variáveis de ambiente | Parcial: só `DISCORD_TOKEN`; IDs de servidor, cargo e canais estão fixos no código |
+| Configuração por variáveis de ambiente | Parcial: `DISCORD_TOKEN`, e `DISCORD_GUILD_ID` só no bloco comentado de limpeza do `main.py`; cargo, canais e o servidor dos cogs de canais estão fixos no código |
 | Testes automatizados | Inexistentes |
 
 ## Como rodar
@@ -78,7 +78,7 @@ Encontrados lendo o código em 2026-10-17. Nada foi executado além da verifica�
 
 - **Token dentro da imagem Docker**: não há `.dockerignore` e o `Dockerfile` faz `COPY . .`, então o `.env` (com o `DISCORD_TOKEN`) e o `.git` entram na imagem. Qualquer um com acesso à imagem lê o token.
 - **`Json/Data.json` é versionado** e, no container, gravado **sem volume**: a história e o ID do canal se perdem ao recriar o container e voltam ao estado do Git.
-- **IDs fixos no código**: servidor (`main.py`, `canal_comandos.py`, `canal_historia.py`), cargo ADM (`apagar.py`, `canal_comandos.py`) e canais (`main.py`, `reload.py`). `DISCORD_GUILD_ID` está no `.env`, mas nenhum arquivo o lê.
+- **IDs fixos no código**: servidor (`canal_comandos.py`, `canal_historia.py`), cargo ADM (`apagar.py`, `canal_comandos.py`) e canais (`main.py`, `reload.py`). O `main.py` lê `DISCORD_GUILD_ID` do `.env` desde o commit `72c1e09`, mas só o usa no bloco comentado que limpa os comandos.
 - **`/reload`**: chama `send_message` dentro do laço (a segunda resposta lança `InteractionResponded`), usa `reload_extension` em módulos que podem não estar carregados e não recarrega os command groups.
 - **`on_ready` chama `Historias_diaria.start()`** sem verificar se já está rodando: numa reconexão do gateway o `on_ready` dispara de novo e a tarefa lança `RuntimeError`.
 - **Publicação diária frágil**: o loop roda a cada 1 minuto e só age se o horário for exatamente `12:00`. Se o bot estiver fora do ar nesse minuto, a história não é publicada naquele dia.
@@ -94,7 +94,7 @@ Encontrados lendo o código em 2026-10-17. Nada foi executado além da verifica�
 
 - **Slash commands (`app_commands`)** em vez de prefixo `!`: autocompletar e permissões nativas do Discord.
 - **Cogs por pasta**: `main.py` carrega como extensão todo `.py` de `Comandos/` (exceto `_*`), então um comando novo não precisa ser registrado à mão.
-- **Command groups por convenção**: cada pasta em `Comandos/Cog_normal/Groups/<Nome>` exporta `<nome>_group`, e `load_groups.py` o adiciona à árvore de comandos.
+- **Command groups por convenção**: cada pasta em `Comandos/Cog_normal/Groups/<Nome>` exporta `<nome>_group`, e `__load_groups.py` o adiciona à árvore de comandos.
 - **Persistência em JSON** (`Json/Data.json`) em vez de banco: suficiente para uma lista de frases e um ID de canal.
 - **Estado do Blackjack em memória** (`Estados/estados_Blackjack.py`, `dict` por `user_id`): partidas não sobrevivem a reinícios, o que é aceitável para um jogo curto.
 

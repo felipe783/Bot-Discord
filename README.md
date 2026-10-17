@@ -68,9 +68,10 @@ Crie um arquivo `.env` na raiz (ele está no `.gitignore` e **nunca** deve ser c
 
 ```dotenv
 DISCORD_TOKEN=cole_aqui_o_token_do_bot
+DISCORD_GUILD_ID=id_do_seu_servidor
 ```
 
-> O ID do servidor, o cargo ADM e os canais estão **fixos no código** (`main.py`, `Comandos/Cog_ADM/`, `Comandos/Cogs_channel/`). Para usar o bot em outro servidor, troque esses IDs. A variável `DISCORD_GUILD_ID` do `.env` ainda não é lida pelo código.
+> `DISCORD_GUILD_ID` é lido pelo `main.py`, mas por enquanto só no bloco comentado que limpa os comandos. O cargo ADM, os canais e o servidor usado na criação de canais continuam **fixos no código** (`main.py`, `Comandos/Cog_ADM/`, `Comandos/Cogs_channel/`); para usar o bot em outro servidor, troque esses IDs.
 
 ## Como rodar
 

@@ -3,7 +3,7 @@
 O arquivo `main.py` é o **Ponto de Entrada do Bot**: configura os intents, carrega os comandos, agenda a publicação diária da história e conecta ao Discord.
 
 Responsabilidades:
-- ler `DISCORD_TOKEN` do `.env`;
+- ler `DISCORD_TOKEN` e `DISCORD_GUILD_ID` do `.env`;
 - definir a subclasse `Teste(commands.Bot)`;
 - registrar a tarefa `Historias_diaria` e o evento `on_ready`.
 # Funcionalidades
@@ -43,6 +43,6 @@ Detalhes em [[História Colaborativa]].
 Inicia `Historias_diaria` e envia "O Monstro Chegou🔥😎" a um canal de ID fixo.
 
 > [!warning] Observações
-> - `GUILD_ID` está definido e não é usado; o ID do canal de início está fixo no código.
+> - `GUILD_ID = os.getenv("DISCORD_GUILD_ID")` só é usado no bloco comentado de limpeza (como texto, sem `int(...)`); o ID do canal de início está fixo no código.
 > - `Historias_diaria.start()` sem `is_running()`: uma reconexão dispara `on_ready` de novo e lança `RuntimeError`.
 > - `DB = load_db()` na importação usa `DB["ID_Historia"][0]`: se o canal de histórias ainda não foi criado, a lista está vazia e a tarefa falha (o erro só aparece no console).
