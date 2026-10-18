@@ -78,6 +78,6 @@ Ao alterar comportamento, atualize na mesma tarefa:
 3. O `README.md`, se mudar comando, permissão, variável de ambiente ou forma de rodar.
 
 Convenções do vault (o mesmo do Obsidian em `Contexto Projetos/Bot-Discord`, via junction):
-- Frontmatter começando na linha 1, chaves `Projeto`/`Status`/`Stack`/`Codigo`/`Repositorio`/`Atualizado`, e valores com `:`, `\` ou `!` entre aspas.
+- Frontmatter: siga a tabela de **Convenções** em `E:/Downloads/!Faculdade/Contexto Projetos/Contexto Geral.md`, que é a única definição (`Tipo`, `Status` controlado, `Codigo` relativo) e tem templates em `_templates/`.
 - Nomes de nota únicos no vault inteiro: notas genéricas levam `(Bot-Discord)`; requisitos usam `BD-RF NN`.
 - Links `[[Nome da Nota]]`. Separe o que foi **executado** do que foi **lido no código**, com data.

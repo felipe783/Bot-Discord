@@ -1,13 +1,14 @@
 ---
+Tipo: projeto
 Projeto: Bot-Discord
-Status: em desenvolvimento
+Status: ativo
 Stack:
   - Python
   - discord.py
   - requests
   - pytz
   - Docker
-Codigo: "E:/Downloads/!Faculdade/Bot-Discord"
+Codigo: "Bot-Discord"
 Repositorio: "https://github.com/felipe783/Bot-Discord"
 Atualizado: 2026-10-17
 ---
@@ -15,7 +16,7 @@ Atualizado: 2026-10-17
 
 Bot de Discord em **Python (discord.py)** para um servidor específico, com **slash commands** organizados em *cogs* e *command groups*: uma **história colaborativa** que os membros escrevem frase a frase e que é publicada e zerada todo dia ao meio-dia, um **Blackjack** em que a aposta é o tempo de *timeout* de quem perde, uma **busca de mods** na API do Modrinth e comandos de administração.
 
-- **Código:** raiz deste repositório; a documentação fica em `vault/` (local: `E:\Downloads\!Faculdade\Bot-Discord`)
+- **Código:** raiz deste repositório; a documentação fica em `vault/`
 - **Entrada:** interações de slash command no Discord (gateway via `bot.run(TOKEN)`)
 - **Saída:** respostas e embeds no Discord, *timeouts* de membros, canais criados no servidor e o arquivo `Json/Data.json` (história e ID do canal)
 - **Hospedagem:** container Docker num Ubuntu Server 24.04 (segundo o README original)
