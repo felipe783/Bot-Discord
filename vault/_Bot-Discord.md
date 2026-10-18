@@ -68,9 +68,9 @@ docker run -d --name bot-discord --env-file .env --restart unless-stopped bot-di
 - Módulos:
   - [[!Modulo Core (Bot-Discord)]]: [[Main e Bot]], [[Carregamento de Cogs e Groups]], [[Loader e Data.json]].
   - [[!Modulo Comandos (Bot-Discord)]]: [[Comandos Gerais]], [[Comandos ADM]].
-  - [[!Modulo História (Bot-Discord)]]: [[História Colaborativa]].
-  - [[!Modulo Blackjack]]: [[Regras do Blackjack]].
-  - [[!Modulo Canais (Bot-Discord)]]: [[Criação de Canais]].
+  - História: [[História Colaborativa]].
+  - Blackjack: [[Regras do Blackjack]].
+  - Canais: [[Criação de Canais]].
   - [[Docker (Bot-Discord)]].
 
 ## Problemas conhecidos

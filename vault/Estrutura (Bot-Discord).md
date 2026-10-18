@@ -37,7 +37,7 @@ Bot-Discord/
 
 - `main.py`, `loader.py`, `Comandos/__load_groups.py`: ver [[!Modulo Core (Bot-Discord)]].
 - `Comandos/Cog_normal/*.py`, `Comandos/Cog_ADM/`: ver [[!Modulo Comandos (Bot-Discord)]].
-- `Comandos/Cog_normal/Groups/Historia/`: ver [[!Modulo História (Bot-Discord)]].
-- `Comandos/Cog_normal/Groups/Blackjack/`, `Estados/`: ver [[!Modulo Blackjack]].
-- `Comandos/Cogs_channel/`: ver [[!Modulo Canais (Bot-Discord)]].
+- `Comandos/Cog_normal/Groups/Historia/`: ver [[História Colaborativa|História]].
+- `Comandos/Cog_normal/Groups/Blackjack/`, `Estados/`: ver [[Regras do Blackjack|Blackjack]].
+- `Comandos/Cogs_channel/`: ver [[Criação de Canais|Canais]].
 - `Dockerfile`: ver [[Docker (Bot-Discord)]].

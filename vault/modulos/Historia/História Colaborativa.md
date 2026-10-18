@@ -1,6 +1,8 @@
 # Sobre os Arquivos
 
 `historia_group.py`, `historia.py`, `ver_historia.py` e a tarefa `Historias_diaria` de `main.py` implementam a **História Colaborativa**.
+
+Pasta: `Comandos/Cog_normal/Groups/Historia/` (command group `/historia`); o `/apagar` também altera a história.
 # Funcionalidades
 
 ## /historia escrever [texto]

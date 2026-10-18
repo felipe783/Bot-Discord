@@ -23,9 +23,9 @@ O Bot-Discord é um bot de entretenimento e utilidades para **um servidor Discor
 
 - [[!Modulo Core (Bot-Discord)]]: `main.py`, `loader.py` e o carregamento de cogs/groups.
 - [[!Modulo Comandos (Bot-Discord)]]: `/ping`, `/ajuda`, `/busca_mod`, `/apagar`, `/reload`.
-- [[!Modulo História (Bot-Discord)]]: grupo `/historia` e publicação diária.
-- [[!Modulo Blackjack]]: grupo `/blackjack`.
-- [[!Modulo Canais (Bot-Discord)]]: criação dos canais.
+- [[História Colaborativa|História]]: grupo `/historia` e publicação diária.
+- [[Regras do Blackjack|Blackjack]]: grupo `/blackjack`.
+- [[Criação de Canais|Canais]]: criação dos canais.
 
 
 [[Dependencias (Bot-Discord)]] · [[Arquitetura (Bot-Discord)]]

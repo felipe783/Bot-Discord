@@ -1,6 +1,8 @@
 # Sobre os Arquivos
 
 `iniciar.py`, `hit.py`, `stand.py`, `double_down.py` e `Estados/estados_Blackjack.py` implementam o **Blackjack contra o dealer**, em que a aposta é o **tempo de *timeout*** de quem perde.
+
+Pasta: `Comandos/Cog_normal/Groups/Blackjack/` (command group `/blackjack`); estado das mesas em `Estados/estados_Blackjack.py`.
 # Funcionalidades
 
 ## Estado

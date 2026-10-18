@@ -1,6 +1,8 @@
 # Sobre os Arquivos
 
 `canal_historia.py` e `canal_comandos.py` são *listeners* de `on_ready` que **criam canais** se eles não existirem (com uma *flag* `_done` para rodar só uma vez por processo).
+
+Pasta: `Comandos/Cogs_channel/`.
 # Funcionalidades
 
 | Cog | Canal | Permissões |

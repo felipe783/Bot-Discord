@@ -3,4 +3,4 @@ O módulo de **comandos avulsos** fica em `Comandos/Cog_normal/` (qualquer membr
 - [[Comandos Gerais]]: `/ping`, `/ajuda`, `/busca_mod`.
 - [[Comandos ADM]]: `/apagar`, `/reload`.
 
-Os comandos em grupo ficam em [[!Modulo História (Bot-Discord)]] e [[!Modulo Blackjack]].
+Os comandos em grupo ficam em [[História Colaborativa|História]] e [[Regras do Blackjack|Blackjack]].
